@@ -189,14 +189,6 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <me.relex.circleindicator.CircleIndicator3
-                    android:id="@+id/indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:ci_drawable="@drawable/ic_circle_deep_pink"
-                    app:ci_drawable_unselected="@drawable/ic_circle_white"
-                    app:ci_height="20dp"
-                    app:ci_width="20dp" />
             </LinearLayout>
         </LinearLayout>
 
