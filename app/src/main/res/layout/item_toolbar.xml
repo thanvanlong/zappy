@@ -17,6 +17,7 @@
         android:fontFamily="@font/inter_medium"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@id/img_menu"/>
     <ImageView
         android:id="@+id/img_menu"

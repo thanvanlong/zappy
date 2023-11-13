@@ -128,25 +128,30 @@
                 android:layout_marginBottom="@dimen/size_10"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:weightSum="10"
+                android:gravity="center"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_weight="2.5"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/size_10"
                     android:src="@drawable/ic_logo_fb"/>
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_weight="2.5"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/size_10"
                     android:src="@drawable/ic_phone"/>
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_weight="2.5"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/size_10"
                     android:src="@drawable/ic_twitter"/>
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_weight="2.5"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="@dimen/size_10"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_logo_fb"/>
             </LinearLayout>
