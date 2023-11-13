@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.WalkthroughScreensActivity">
 
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPage2"
         android:layout_width="0dp"
@@ -15,6 +16,7 @@
         app:layout_constraintHeight_percent="1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="1" />
+
     <me.relex.circleindicator.CircleIndicator3
         android:id="@+id/indicator"
         android:layout_width="0dp"
@@ -28,5 +30,27 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="Skip"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_next"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/ic_right_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

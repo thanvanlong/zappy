@@ -63,12 +63,12 @@
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:layout_height="48dp"
                     android:background="@drawable/bg_edit_text"
+                    android:hint="Enter your email address"
                     android:padding="5dp"
                     android:textColorHint="@color/normal_gray"
-                    android:hint="Enter your email address"/>
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -87,12 +87,12 @@
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:layout_height="48dp"
                     android:background="@drawable/bg_edit_text"
+                    android:hint="Enter your email address"
                     android:padding="5dp"
                     android:textColorHint="@color/normal_gray"
-                    android:hint="Enter your email address"/>
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout

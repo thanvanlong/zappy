@@ -2,7 +2,9 @@ package com.longtv.zappy.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 
 import com.longtv.zappy.R;
@@ -18,5 +20,19 @@ public class HomeActivity extends AppCompatActivity {
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startWalkthroughScreensActivity();
+            }
+        }, 2000);
+    }
+
+    private void startWalkthroughScreensActivity() {
+        Intent intent = new Intent(this, WalkthroughScreensActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

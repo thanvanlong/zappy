@@ -4,7 +4,7 @@ plugins {
 }
 android {
     namespace 'com.longtv.zappy'
-    compileSdk 33
+    compileSdk 34
     flavorDimensions "default"
     android.buildFeatures.buildConfig true
     defaultConfig {
