@@ -61,8 +61,8 @@ public class WalkthroughScreensActivity extends AppCompatActivity {
     }
 
     private void startAccountActivity() {
-        Intent intent = new Intent(this, AccountActivity.class);
-        startActivity(intent);
-        finish();
+//        Intent intent = new Intent(this, AccountActivity.class);
+//        startActivity(intent);
+//        finish();
     }
 }
