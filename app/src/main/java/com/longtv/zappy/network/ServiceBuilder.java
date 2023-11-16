@@ -20,7 +20,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceBuilder {
-    private static final String BASE_URL = BuildConfig.BASE_URL;
+//    private static final String BASE_URL = BuildConfig.BASE_URL;
+    private static final String BASE_URL = "https://d6da-171-224-177-51.ngrok-free.app/";
 
     private static Retrofit sInstance;
     private static Retrofit sInstancePayment;
@@ -63,6 +64,37 @@ public class ServiceBuilder {
         return sInstance;
     }
 
+    private static Retrofit getRetrofitWithoutAuth(){
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        long nomalTimeout = 15;
+        OkHttpClient client = new OkHttpClient.Builder()
+                .readTimeout(nomalTimeout, TimeUnit.SECONDS)
+                .writeTimeout(nomalTimeout, TimeUnit.SECONDS)
+                .connectTimeout(nomalTimeout, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        if (sInstance == null) {
+            // User agent
+            sInstance = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .client(client)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .build();
+
+        }
+        return sInstance;
+    }
+
+    public static ZappyService getServiceWithoutAuth(){
+        if(dreamService == null) {
+            dreamService = getRetrofitWithoutAuth().create(ZappyService.class);
+        }
+        return dreamService;
+    }
 
     public static ZappyService getService() {
         if (dreamService == null) {

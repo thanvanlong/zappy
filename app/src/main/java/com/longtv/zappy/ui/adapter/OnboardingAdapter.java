@@ -5,12 +5,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.longtv.zappy.ui.fragment.WalkthroughScreens1Fragment;
-import com.longtv.zappy.ui.fragment.WalkthroughScreens2Fragment;
-import com.longtv.zappy.ui.fragment.WalkthroughScreens3Fragment;
+import com.longtv.zappy.ui.login.OnboardingFirstFragment;
+import com.longtv.zappy.ui.login.OnboardingSecondFragment;
+import com.longtv.zappy.ui.login.OnboardingThirdFragment;
 
-public class WalkthroughScreensAdapter extends FragmentStateAdapter {
-    public WalkthroughScreensAdapter(@NonNull FragmentActivity fragmentActivity) {
+public class OnboardingAdapter extends FragmentStateAdapter {
+    public OnboardingAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
 
@@ -19,11 +19,11 @@ public class WalkthroughScreensAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position){
             case 0:
-                return new WalkthroughScreens1Fragment();
+                return new OnboardingFirstFragment();
             case 1:
-                return new WalkthroughScreens2Fragment();
+                return new OnboardingSecondFragment();
             case 2:
-                return new WalkthroughScreens3Fragment();
+                return new OnboardingThirdFragment();
         }
         return null;
     }

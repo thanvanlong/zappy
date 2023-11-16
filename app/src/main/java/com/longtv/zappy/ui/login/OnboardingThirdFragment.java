@@ -1,4 +1,4 @@
-package com.longtv.zappy.ui.fragment;
+package com.longtv.zappy.ui.login;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,14 +11,14 @@ import androidx.fragment.app.Fragment;
 
 import com.longtv.zappy.R;
 
-public class WalkthroughScreens1Fragment extends Fragment {
+public class OnboardingThirdFragment extends Fragment {
 
-    public WalkthroughScreens1Fragment() {
+    public OnboardingThirdFragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_walkthrough_screens_1, container, false);
+        return inflater.inflate(R.layout.fragment_onboarding_third, container, false);
     }
 }

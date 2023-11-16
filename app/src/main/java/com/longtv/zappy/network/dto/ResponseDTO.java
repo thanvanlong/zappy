@@ -13,6 +13,26 @@ public class ResponseDTO<T> implements Serializable {
     private String message;
     @SerializedName("success")
     private boolean success;
+    @SerializedName("statusCode")
+    private int statusCode;
+    @SerializedName("meta")
+    private MetaData meta;
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public MetaData getMeta() {
+        return meta;
+    }
+
+    public void setMeta(MetaData meta) {
+        this.meta = meta;
+    }
 
     public boolean isSuccess() {
         return success;

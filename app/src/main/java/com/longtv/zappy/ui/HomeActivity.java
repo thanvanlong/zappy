@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.View;
 
 import com.longtv.zappy.R;
+import com.longtv.zappy.ui.login.OnboardingActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -31,7 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void startWalkthroughScreensActivity() {
-        Intent intent = new Intent(this, WalkthroughScreensActivity.class);
+        Intent intent = new Intent(this, OnboardingActivity.class);
         startActivity(intent);
         finish();
     }
