@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_learning"
         android:icon="@drawable/ic_game_outline"
         android:title="@string/game" />
 
     <item
-        android:id="@+id/navigation_livetv"
+        android:id="@+id/navigation_story"
         android:icon="@drawable/ic_story_outline"
         android:title="@string/story" />
 
     <item
-        android:id="@+id/navigation_movie"
+        android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_outline"
         android:title="@string/home" />
 
@@ -22,7 +22,7 @@
         android:title="@string/video_title" />
 
     <item
-        android:id="@+id/navigation_hbo"
+        android:id="@+id/navigation_music"
         android:icon="@drawable/ic_music_outline"
         android:title="@string/music" />
 

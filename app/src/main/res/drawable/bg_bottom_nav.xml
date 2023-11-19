@@ -53,7 +53,7 @@
                 android:centerColor="#00FF0000"
                 android:centerY="0.1"
                 android:endColor="#00FF0000"
-                android:startColor="#E4E4E4" />
+                android:startColor="#C8C8C8" />
             <corners android:radius="100dp" />
         </shape>
     </item>

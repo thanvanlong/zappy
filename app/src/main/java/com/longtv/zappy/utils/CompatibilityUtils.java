@@ -10,7 +10,7 @@ public class CompatibilityUtils {
     public static final float SPACING_PERCENT = 0.04f;
     public static final float NUMBER_STORY_MOBILE = 2.3f;
     public static final float NUMBER_BOX_LISTENING_MOBILE = 1.2f;
-    public static final float NUMBER_BOX_CONTENT_MOBILE = 2.5f;
+    public static final float NUMBER_BOX_CONTENT_MOBILE = 3f;
     public static final float NUMBER_BOX_CONTENT_RELATED_MOBILE = 2f;
     public static final float NUMBER_BOX_AUTHOR_MOBILE = 3f;
 
