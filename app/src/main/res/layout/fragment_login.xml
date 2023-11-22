@@ -8,8 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container_login"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.65"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -43,7 +42,7 @@
             android:id="@+id/container_ed"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.33"
+            app:layout_constraintHeight_percent="0.39"
             android:paddingTop="@dimen/size_10"
             app:layout_constraintTop_toBottomOf="@id/container_welcome"
             android:orientation="vertical">
@@ -64,7 +63,7 @@
                 <EditText
                     android:id="@+id/edt_email_login"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="45dp"
                     android:background="@drawable/bg_edit_text"
                     android:hint="Enter your email address"
                     android:padding="5dp"
@@ -76,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/size_10"
-                android:layout_marginTop="@dimen/size_20"
+                android:layout_marginTop="@dimen/size_10"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
@@ -89,7 +88,7 @@
                 <EditText
                     android:id="@+id/edt_password_login"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="45dp"
                     android:background="@drawable/bg_edit_text"
                     android:hint="Enter your email address"
                     android:padding="5dp"
@@ -116,7 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:layout_constraintHeight_percent="0.15"
+            app:layout_constraintHeight_percent="0.13"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/container_ed"
             android:gravity="center_horizontal">
@@ -165,7 +164,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/size_20"
-            android:layout_marginTop="@dimen/size_20"
+            android:layout_marginTop="@dimen/size_10"
             app:layout_constraintTop_toBottomOf="@id/container_method_login">
 
             <TextView
@@ -173,7 +172,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Login"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:textColor="@color/white"
                 android:textAlignment="center"
                 android:layout_marginTop="@dimen/size_10"

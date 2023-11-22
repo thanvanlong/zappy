@@ -9,7 +9,7 @@
         android:id="@+id/shimmer_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:padding="10dp">
         <include layout="@layout/shimmer_layout_home"/>
     </com.facebook.shimmer.ShimmerFrameLayout>
@@ -27,12 +27,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="30dp"
-                app:cardCornerRadius="15dp"
+                app:cardCornerRadius="5dp"
                 android:backgroundTint="@color/white">
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp_banner"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="280dp"
                     />
             </androidx.cardview.widget.CardView>
             <me.relex.circleindicator.CircleIndicator3

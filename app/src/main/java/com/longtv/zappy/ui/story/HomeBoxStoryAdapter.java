@@ -32,7 +32,7 @@ public class HomeBoxStoryAdapter extends RecyclerView.Adapter<HomeBoxStoryAdapte
         holder.rcvContent.setLayoutManager(new LinearLayoutManager(HomeActivity.getInstance(),  LinearLayoutManager.HORIZONTAL, false));
         ContentAdapter contentAdapter = new ContentAdapter();
         holder.rcvContent.setAdapter(contentAdapter);
-        holder.rcvContent.addItemDecoration(new HorizontalItemDecoration(60));
+        holder.rcvContent.addItemDecoration(new HorizontalItemDecoration(30));
     }
 
     @Override

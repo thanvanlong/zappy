@@ -11,4 +11,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The little witches"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:layout_marginTop="7dp"
+        android:fontFamily="@font/inter_semibold"
+        app:layout_constraintTop_toBottomOf="@id/iv_cover_image"
+        app:layout_constraintStart_toStartOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
