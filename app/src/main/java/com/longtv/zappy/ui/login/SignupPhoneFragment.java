@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.fragment.app.FragmentManager;
 
 import com.longtv.zappy.R;
 import com.longtv.zappy.base.BaseFragment;
@@ -18,6 +21,8 @@ public class SignupPhoneFragment extends BaseFragment<LoginPresenter, LoginActiv
     protected EditText edtPhone;
     @BindView(R.id.btn_next_signup)
     protected Button btnNext;
+    @BindView(R.id.iv_back_signup_phone)
+    protected ImageView ivBack;
     @Override
     public int getLayoutId() {
         return R.layout.fragment_signup_phone;
@@ -41,10 +46,17 @@ public class SignupPhoneFragment extends BaseFragment<LoginPresenter, LoginActiv
                 if(AuthUtils.validatePhone(phone)){
                     Bundle bundle = new Bundle();
                     bundle.putString("phoneNumber", phone);
-                    getBaseActivity().addFragment(R.id.container, new SignupFragment(), bundle, true, "signup");
+                    getBaseActivity().addFragment(R.id.container, new SignupFragment(), bundle, true, SignupFragment.class.getSimpleName());
                 }else{
                     Toast.makeText(getBaseActivity(), "Số điên thoại phải bắt đầu bằng 0 và có ít nhất 10 chữ số", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getBaseActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack(); // quay lại fragment trước đó
             }
         });
     }

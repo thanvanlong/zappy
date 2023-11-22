@@ -8,4 +8,6 @@
     <string name="video_title">Video</string>
     <string name="skip">Skip\n</string>
     <string name="welcome">Welcome to\n</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

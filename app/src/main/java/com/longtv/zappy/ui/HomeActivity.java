@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.View;
 
 import com.longtv.zappy.R;
+import com.longtv.zappy.ui.account.AccountActivity;
 import com.longtv.zappy.ui.login.OnboardingActivity;
 
 public class HomeActivity extends AppCompatActivity {

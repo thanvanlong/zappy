@@ -8,7 +8,9 @@
     <color name="deep_pink">#F35672</color>
     <color name="normal_pink">#F58A9E</color>
     <color name="light_pink">#F6B0BD</color>
+    <color name="light_green">#86D296</color>
     <color name="gray">#6B6B6B</color>
     <color name="normal_gray">#ABAAAA</color>
     <color name="light_gray">#FFFFFF</color>
+    <color name="light_yellow">#FFFF33</color>
 </resources>

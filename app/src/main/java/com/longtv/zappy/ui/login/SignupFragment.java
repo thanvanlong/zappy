@@ -5,7 +5,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.fragment.app.FragmentManager;
 
 import com.longtv.zappy.R;
 import com.longtv.zappy.base.BaseFragment;
@@ -29,6 +32,8 @@ public class SignupFragment extends BaseFragment<LoginPresenter, LoginActivity> 
     protected EditText edtConfirmPassword;
     @BindView(R.id.btn_signup)
     protected Button btnSignup;
+    @BindView(R.id.iv_back_signup)
+    protected ImageView ivBack;
     @Override
     public int getLayoutId() {
         return R.layout.fragment_signup;
@@ -64,6 +69,13 @@ public class SignupFragment extends BaseFragment<LoginPresenter, LoginActivity> 
                 }else{
                     Toast.makeText(getBaseActivity(), "Mật khẩu phải có ít nhất 8 kí tự", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getBaseActivity().getSupportFragmentManager();
+                fragmentManager.popBackStack(); // quay lại fragment trước đó
             }
         });
     }

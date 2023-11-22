@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.longtv.zappy.ui.login.OnboardingFirstFragment;
 import com.longtv.zappy.ui.login.OnboardingSecondFragment;
 import com.longtv.zappy.ui.login.OnboardingThirdFragment;
-
+// this is adapter for a ViewPager2
 public class OnboardingAdapter extends FragmentStateAdapter {
     public OnboardingAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);

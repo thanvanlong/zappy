@@ -8,7 +8,7 @@ public class AuthUtils {
         return phone.matches(patternPhone);
     }
     public static boolean validatePassword(String password){
-        // Định dạng chuỗi regex cho số điện thoại với số 0 đằng trước và ít nhất 10 số
+        // Định dạng chuỗi regex cho mật khẩu phải có ít nhất 8 kí tự
         String patternPassword = ".{8,}";
 
         return password.matches(patternPassword);
