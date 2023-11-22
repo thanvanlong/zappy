@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.longtv.zappy.common.view.MediaPlayerView
+        android:id="@+id/container_media"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.exoplayer2.ui.AspectRatioFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black">
+            <com.google.android.exoplayer2.ui.StyledPlayerView
+                android:id="@+id/player_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:use_controller="false"/>
+            <RelativeLayout
+                android:id="@+id/layout_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:paddingHorizontal="@dimen/size_10"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical"
+                    android:layout_toStartOf="@id/ic_fullscreen">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/currentTime"
+                            android:textSize="@dimen/size_10"
+                            android:textColor="@color/white"
+                            android:text="1:30:20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="start|center_vertical"
+                            android:layout_alignParentStart="true" />
+                        <TextView
+                            android:id="@+id/endTime"
+                            android:textSize="@dimen/size_10"
+                            android:textColor="@color/white"
+                            android:text="1:30:20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="start|center_vertical"
+                            android:layout_alignParentEnd="true" />
+                    </RelativeLayout>
+
+                    <SeekBar
+                        android:id="@+id/sb_progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:indeterminateDrawable="@drawable/continue_progress_bar"
+                        android:indeterminateOnly="false"
+                        android:progressDrawable="@drawable/continue_progress_bar"
+                        android:thumb="@drawable/player_ic_seekbar" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ic_fullscreen"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/ic_fullscreen" />
+
+            </RelativeLayout>
+        </com.google.android.exoplayer2.ui.AspectRatioFrameLayout>
+
+        <ProgressBar
+            android:id="@+id/common_progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/bg_on_loading"
+            android:layout_gravity="center"
+            android:visibility="visible"/>
+
+        <LinearLayout
+            android:id="@+id/layout_controls"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:weightSum="6.8">
+
+            <LinearLayout
+                android:id="@+id/controls_playback_root"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="5"
+                >
+                <!--android:background="@color/bg_color_transparent_bg"-->
+
+                <LinearLayout
+                    android:id="@+id/control_seek_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_seek_bw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/seek_back"
+                        style="@style/IconPlayer"
+                        android:layout_marginTop="@dimen/size_10"
+                        android:layout_marginBottom="@dimen/size_10"
+                        android:src="@drawable/player_ic_seek_pre_small"
+                        android:background="?attr/selectableItemBackgroundBorderless"/>
+
+                    <TextView
+                        android:id="@+id/txt_seek_bw2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/player_layout_prev"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/prev"
+                        style="@style/IconPlayer"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/player_ic_prev_video_small"
+                        android:alpha="0.6"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/iv_play_pause"
+                        style="@style/IconPlayer"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/player_ic_play_small"
+                        android:background="?attr/selectableItemBackgroundBorderless"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/player_layout_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/next"
+                        style="@style/IconPlayer"
+                        android:rotation="180"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/player_ic_prev_video_small"
+                        android:background="?attr/selectableItemBackgroundBorderless" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/control_seek_forward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_seek_fw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/seek_forward"
+                        style="@style/IconPlayer"
+                        android:layout_marginTop="@dimen/size_10"
+                        android:layout_marginBottom="@dimen/size_10"
+                        android:src="@drawable/player_ic_seek_next_small"
+                        android:background="?attr/selectableItemBackgroundBorderless"/>
+
+                    <TextView
+                        android:id="@+id/txt_seek_fw2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:visibility="invisible" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </com.longtv.zappy.common.view.MediaPlayerView>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:importantForAutofill="yes">
+
+        <LinearLayout
+            android:id="@+id/all_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/detailView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_detail_content_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_10"
+                        android:layout_weight="1"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:text="Cậu út nhà tài phiệt - Reborn Richkid"
+                        android:fontFamily="@font/inter_semibold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/item_film_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:ellipsize="end"
+                    android:paddingHorizontal="5dp"
+                    android:textColor="@color/white"
+                    android:lines="3"
+                    android:text="Cậu Út Nhà Tài Phiệt - Reborn Rich được chuyển thể từ tiểu thuyết The Youngest Son of a Conglomerate, xoay quanh nhân vật Yoon Hyun Woo (Song Joong Ki), một thư ký của Tập đoàn SoonYang."
+                    android:textSize="11sp"
+                    android:fontFamily="@font/inter_regular" />
+
+                <LinearLayout
+                    android:id="@+id/item_film_infos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/item_film_categories"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/normal_gray"
+                        android:textSize="11sp"
+                        android:text="Thể loại: Dành riêng cho bạn,  Phim phát song song,  Phim Hàn Quốc"
+                        android:fontFamily="@font/inter_regular" />
+
+                    <TextView
+                        android:id="@+id/item_film_actors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:textColor="@color/normal_gray"
+                        android:textSize="11sp"
+                        android:text="Diễn viên: Shin Hyun-bin,  Lee Sung Min,  Song Joong Ki"
+                        android:fontFamily="@font/inter_regular" />
+
+                    <TextView
+                        android:id="@+id/item_film_author"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/normal_gray"
+                        android:textSize="11sp"
+                        android:text="Đạo diễn: Jeong Dae Yun"
+                        android:fontFamily="@font/inter_regular" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/group_action_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/size_10">
+
+
+                    <LinearLayout
+                        android:id="@+id/btnLike"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/iv_like_video"
+                            android:layout_width="wrap_content"
+                            android:layout_height="44dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="@dimen/size_10"
+                            android:src="@drawable/ic_like_video_detail"/>
+
+                        <TextView
+                            android:id="@+id/tv_like"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thích"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnAddFavorite"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/ivAddFavorite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="44dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="@dimen/size_10"
+                            android:src="@drawable/ic_add_video_detail"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Xem sau"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btn_share"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/ivShare"
+                            android:layout_width="wrap_content"
+                            android:layout_height="44dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="@dimen/size_10"
+                            android:src="@drawable/ic_share_video_detail" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Chia sẻ"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tương tự"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="@dimen/size_10"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

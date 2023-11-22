@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.longtv.zappy.R;
+import com.longtv.zappy.ui.HomeActivity;
+import com.longtv.zappy.ui.film.mediaplayer.MediaPlayerFragment;
 import com.longtv.zappy.utils.ImageUtils;
 
 import butterknife.BindView;
@@ -33,6 +35,13 @@ public class ContentMediaAdapter extends RecyclerView.Adapter<ContentMediaAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ImageUtils.loadImageCorner(context, holder.ivCoverImage, "https://www.vintagemovieposters.co.uk/wp-content/uploads/2021/03/IMG_1741-scaled.jpeg", 18);
+
+        holder.ivCoverImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeActivity.getInstance().addFragment(R.id.container_fragment, new MediaPlayerFragment(), false, MediaPlayerFragment.class.getSimpleName());
+            }
+        });
     }
 
     @Override
