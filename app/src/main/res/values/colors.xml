@@ -13,4 +13,5 @@
     <color name="normal_gray">#ABAAAA</color>
     <color name="light_gray">#FFFFFF</color>
     <color name="light_yellow">#FFFF33</color>
+    <color name="colorPrimary">#121212</color>
 </resources>
