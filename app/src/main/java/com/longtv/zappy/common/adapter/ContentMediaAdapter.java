@@ -39,7 +39,7 @@ public class ContentMediaAdapter extends RecyclerView.Adapter<ContentMediaAdapte
         holder.ivCoverImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HomeActivity.getInstance().addFragment(R.id.container_fragment, new MediaPlayerFragment(), false, MediaPlayerFragment.class.getSimpleName());
+                HomeActivity.getInstance().addFragment(R.id.container_fragment, new MediaPlayerFragment(), true, MediaPlayerFragment.class.getSimpleName());
             }
         });
     }

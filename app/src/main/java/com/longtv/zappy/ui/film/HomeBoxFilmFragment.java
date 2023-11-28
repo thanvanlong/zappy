@@ -11,6 +11,7 @@ import com.longtv.zappy.base.BaseFragment;
 import com.longtv.zappy.base.BasePresenter;
 import com.longtv.zappy.common.Constants;
 import com.longtv.zappy.common.adapter.ContentBannerAdapter;
+import com.longtv.zappy.ui.HomeActivity;
 
 import butterknife.BindView;
 import me.relex.circleindicator.CircleIndicator3;
@@ -28,6 +29,12 @@ public class HomeBoxFilmFragment extends BaseFragment {
     @Override
     public int getLayoutId() {
         return R.layout.fragment_box_video;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.getInstance().toggleTopBar(0);
     }
 
     @Override

@@ -63,10 +63,10 @@
                         android:layout_height="wrap_content"
                         android:clickable="true"
                         android:focusable="true"
-                        android:indeterminateDrawable="@drawable/continue_progress_bar"
+                        android:indeterminateDrawable="@drawable/continue_progress_bar_film"
                         android:indeterminateOnly="false"
-                        android:progressDrawable="@drawable/continue_progress_bar"
-                        android:thumb="@drawable/player_ic_seekbar" />
+                        android:progressDrawable="@drawable/continue_progress_bar_film"
+                        android:thumb="@drawable/player_ic_seekbar_film" />
                 </LinearLayout>
 
                 <ImageView

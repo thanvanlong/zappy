@@ -10,8 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+
+import com.longtv.zappy.R;
+import com.longtv.zappy.ui.film.mediaplayer.MediaPlayerFragment;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -65,7 +69,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         fragmentTransaction.replace(containerId, fragment, tag);
 
         if (addToBackStack) {
-            fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
+            FragmentManager manager = getSupportFragmentManager();
+            Fragment topFragment = manager.findFragmentById(R.id.container_fragment);
+            if (!(topFragment instanceof MediaPlayerFragment)) {
+                fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
+            }
         }
 
         fragmentTransaction.commitAllowingStateLoss();

@@ -81,6 +81,7 @@ public class MediaPlayerFragment extends BaseFragment implements Player.Listener
         rcvContent.setAdapter(new ContentMediaAdapter(getViewContext()));
 
         HomeActivity.getInstance().hideBottomBar();
+        HomeActivity.getInstance().toggleTopBar(View.GONE);
 
         setListener();
 

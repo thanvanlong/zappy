@@ -1,4 +1,4 @@
-package com.longtv.zappy.ui.adapter;
+package com.longtv.zappy.common.adapter;
 
 import android.os.Bundle;
 

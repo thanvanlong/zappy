@@ -24,11 +24,11 @@
             android:textColor="@color/black"/>
 
         <ImageView
-            android:layout_width="25dp"
+            android:layout_width="45dp"
             android:layout_height="25dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/ic_star"/>
+            android:src="@drawable/ic_stars"/>
     </RelativeLayout>
 
     <LinearLayout

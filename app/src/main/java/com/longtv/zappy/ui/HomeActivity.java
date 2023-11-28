@@ -22,13 +22,16 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.longtv.zappy.R;
 import com.longtv.zappy.ui.account.AccountActivity;
+import com.longtv.zappy.ui.account.ManageAccountFragment;
 import com.longtv.zappy.ui.login.OnboardingActivity;
 import com.longtv.zappy.base.BaseActivity;
 import com.longtv.zappy.base.BaseFragment;
 import com.longtv.zappy.base.BasePresenter;
 import com.longtv.zappy.ui.film.HomeBoxFilmFragment;
 import com.longtv.zappy.ui.home.HomeBoxFragment;
+import com.longtv.zappy.ui.login.ScreenPasswordFragment;
 import com.longtv.zappy.ui.music.HomeBoxMusicFragment;
+import com.longtv.zappy.ui.music.detail.HomeBoxMusicPlayerFragment;
 import com.longtv.zappy.ui.story.HomeBoxStoryFragment;
 import com.longtv.zappy.utils.DeviceUtils;
 
@@ -62,6 +65,8 @@ public class HomeActivity extends BaseActivity {
     @Override
     public void onPrepareLayout() {
         setmInstance(this);
+//        hideBottomBar();
+//        toggleTopBar(View.GONE);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -72,7 +77,7 @@ public class HomeActivity extends BaseActivity {
                         addOrReplaceFragment(new HomeBoxStoryFragment(), null, false, HomeBoxStoryFragment.class.getSimpleName());
                         break;
                     case R.id.navigation_home:
-                        addOrReplaceFragment(new HomeBoxFragment(), null, false, HomeBoxFragment.class.getSimpleName());
+                        addOrReplaceFragment(new ManageAccountFragment(), null, false, HomeBoxFragment.class.getSimpleName());
                         break;
                     case R.id.navigation_video:
                         addOrReplaceFragment(new HomeBoxFilmFragment(), null,  false, HomeBoxFilmFragment.class.getSimpleName());
@@ -88,7 +93,7 @@ public class HomeActivity extends BaseActivity {
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
     }
 
-    private void addOrReplaceFragment(BaseFragment fragment, Bundle args, boolean addToBackStack, String tagName) {
+    public void addOrReplaceFragment(BaseFragment fragment, Bundle args, boolean addToBackStack, String tagName) {
         Log.e("anth", "addOrReplaceFragment: " + tagName);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

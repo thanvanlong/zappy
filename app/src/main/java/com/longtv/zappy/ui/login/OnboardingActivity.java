@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.longtv.zappy.R;
-import com.longtv.zappy.ui.adapter.OnboardingAdapter;
+import com.longtv.zappy.common.adapter.OnboardingAdapter;
 
 import me.relex.circleindicator.CircleIndicator3;
 

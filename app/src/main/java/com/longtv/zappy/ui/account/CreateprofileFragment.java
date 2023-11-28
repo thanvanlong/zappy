@@ -1,5 +1,7 @@
 package com.longtv.zappy.ui.account;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.TimePickerDialog;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +18,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.longtv.zappy.R;
 import com.longtv.zappy.base.BaseFragment;
-import com.longtv.zappy.ui.adapter.AgeCircleAdapter;
+import com.longtv.zappy.common.adapter.AgeCircleAdapter;
 
 import butterknife.BindView;
 
@@ -80,8 +82,16 @@ public class CreateprofileFragment extends BaseFragment<AccountPresenter, Accoun
             @Override
             public void transformPage(@NonNull View page, float position) {
                 if(position == 0){
-                    page.setScaleX(1.3f);
-                    page.setScaleY(1.3f);
+                    ObjectAnimator translateX = ObjectAnimator.ofFloat(page, "scaleX",
+                            1f, 1.3f);
+                    ObjectAnimator translateY = ObjectAnimator.ofFloat(page, "scaleY",
+                            1f, 1.3f);
+//                    page.setScaleX(1.3f);
+//                    page.setScaleY(1.3f);
+                    translateY.setDuration(100);
+                    translateX.setDuration(100);
+                    translateY.start();
+                    translateX.start();
                 } else {
                     page.setScaleX(0.8f);
                     page.setScaleY(0.8f);

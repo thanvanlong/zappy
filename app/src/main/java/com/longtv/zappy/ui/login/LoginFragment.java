@@ -50,7 +50,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter, LoginActivity> i
         tvLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getBaseActivity().addFragment(R.id.container, new SignupPhoneFragment(), true, SignupPhoneFragment.class.getSimpleName());
+                getBaseActivity().addFragment(R.id.container, new SignupFragment(), true, SignupPhoneFragment.class.getSimpleName());
             }
         });
     }

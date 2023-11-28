@@ -41,8 +41,8 @@ public class SignupFragment extends BaseFragment<LoginPresenter, LoginActivity> 
 
     @Override
     public void onPrepareLayout() {
-        Bundle receivedBundle = getArguments();
-        phoneNumber = receivedBundle.getString("phoneNumber");
+//        Bundle receivedBundle = getArguments();
+//        phoneNumber = receivedBundle.getString("phoneNumber");
         setListener();
     }
 
@@ -52,9 +52,15 @@ public class SignupFragment extends BaseFragment<LoginPresenter, LoginActivity> 
     }
 
     public void setListener(){
+
+
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (true) {
+                    getBaseActivity().addFragment(R.id.container, new ScreenPasswordFragment(), true, ScreenPasswordFragment.class.getSimpleName());
+                    return;
+                }
                 if (AuthUtils.validatePassword(edtPassword.getText().toString())){
                     if(edtConfirmPassword.getText().toString().equals(edtPassword.getText().toString())){
                         String email = edtEmail.getText().toString();
