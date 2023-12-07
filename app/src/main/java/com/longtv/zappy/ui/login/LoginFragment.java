@@ -1,15 +1,25 @@
 package com.longtv.zappy.ui.login;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.longtv.zappy.R;
 import com.longtv.zappy.base.BaseFragment;
 import com.longtv.zappy.network.dto.LoginData;
 import com.longtv.zappy.network.dto.LoginRequest;
+import com.longtv.zappy.ui.HomeActivity;
+import com.longtv.zappy.ui.account.AccountActivity;
+import com.longtv.zappy.ui.account.ManageAccountFragment;
+import com.longtv.zappy.utils.PrefManager;
 
 import butterknife.BindView;
 
@@ -23,6 +33,8 @@ public class LoginFragment extends BaseFragment<LoginPresenter, LoginActivity> i
     protected TextView btnLogin;
     @BindView(R.id.tv_link_create)
     protected TextView tvLink;
+    @BindView(R.id.iv_show_pass)
+    protected ImageView ivShowPass;
 
     @Override
     public int getLayoutId() {
@@ -43,26 +55,52 @@ public class LoginFragment extends BaseFragment<LoginPresenter, LoginActivity> i
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginRequest request = new LoginRequest(edtEmail.getText().toString(), edtPassword.getText().toString());
-                getPresenter().doLogin(request);
+                if (edtEmail.getText().toString().isEmpty() || edtPassword.getText().toString().isEmpty()) {
+                    Toast.makeText(getViewContext(), "Vui lòng nhập đẩy đủ thông tin để đăng nhập", Toast.LENGTH_SHORT).show();
+                } else {
+                    LoginRequest request = new LoginRequest(edtEmail.getText().toString(), edtPassword.getText().toString());
+                    getViewContext().hideSoftKeyboard();
+                    getPresenter().doLogin(request);
+                }
             }
         });
         tvLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getBaseActivity().addFragment(R.id.container, new SignupFragment(), true, SignupPhoneFragment.class.getSimpleName());
+                getBaseActivity().addFragment(R.id.container, new SignupPhoneFragment(), true, SignupPhoneFragment.class.getSimpleName());
+            }
+        });
+
+        ivShowPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edtPassword.getTransformationMethod() == null) {
+                    ivShowPass.setImageResource(R.drawable.ic_eye_close);
+                    edtPassword.setTransformationMethod(new PasswordTransformationMethod());
+                } else {
+                    edtPassword.setTransformationMethod(null);
+                    ivShowPass.setImageResource(R.drawable.ic_eye_open);
+                }
             }
         });
     }
 
     @Override
     public void onLoginSucess(LoginData data) {
-        Log.e("Login", "Failure");
+        if (data.getProfiles() != null && !data.getProfiles().isEmpty()) {
+            PrefManager.setLogin(getViewContext(), true);
+            startActivity(new Intent(getViewContext(), HomeActivity.class));
+            getViewContext().finish();
+        } else {
+            PrefManager.setLogin(getViewContext(), true);
+            startActivity(new Intent(getViewContext(), AccountActivity.class));
+            getViewContext().finish();
+        }
     }
 
     @Override
     public void onLoginError(String mess) {
-        Log.e("Login", mess);
+        Toast.makeText(getViewContext(), mess, Toast.LENGTH_SHORT).show();
     }
 
     @Override

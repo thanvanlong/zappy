@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class PrefManager {
-
-
     private static final String MY_PREFERENCES = "LONG_TV";
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
     private static final String REFRESH_TOKEN = "REFRESH_TOKEN";
@@ -53,18 +51,6 @@ public class PrefManager {
         }
 
         return "";
-    }
-
-    public static void saveListCategory(Context context, String data) {
-        if (context == null) {
-            return;
-        }
-        SharedPreferences preferences = getPreference(context);
-        if (preferences != null) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(LIST_CATEGORY, data);
-            editor.apply();
-        }
     }
 
 

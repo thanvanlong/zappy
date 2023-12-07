@@ -14,6 +14,7 @@ import com.longtv.zappy.base.BasePresenter;
 import com.longtv.zappy.common.Constants;
 import com.longtv.zappy.common.adapter.ContentMediaPagerAdapter;
 import com.longtv.zappy.common.adapter.ContentBannerAdapter;
+import com.longtv.zappy.ui.HomeActivity;
 
 import butterknife.BindView;
 import me.relex.circleindicator.CircleIndicator3;
@@ -27,6 +28,8 @@ public class HomeBoxFragment extends BaseFragment {
     TabLayout tbCategory;
     @BindView(R.id.vp_contents)
     ViewPager2 vpContents;
+    Handler handler;
+    Runnable runnable;
 
     @Override
     public int getLayoutId() {
@@ -36,6 +39,7 @@ public class HomeBoxFragment extends BaseFragment {
     int page = 0;
     @Override
     public void onPrepareLayout() {
+        HomeActivity.getInstance().showBottomBar();
         ContentBannerAdapter contentNewsAdapter = new ContentBannerAdapter(getViewContext());
         vpNews.setAdapter(contentNewsAdapter);
         indicator3.setViewPager(vpNews);
@@ -48,8 +52,8 @@ public class HomeBoxFragment extends BaseFragment {
             }
         });
 
-        Handler handler = new Handler();
-        Runnable runnable = new Runnable() {
+        handler = new Handler();
+        runnable = new Runnable() {
             @Override
             public void run() {
                 if (page < 6) {
@@ -72,6 +76,19 @@ public class HomeBoxFragment extends BaseFragment {
                 (tab, position) -> tab.setText(Constants.category[position])
         ).attach();
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        HomeActivity.getInstance().showBottomBar();
+//        HomeActivity.getInstance().toggleTopBar(0);
+//        HomeActivity.getInstance().handleBtnBack(false);
     }
 
     @Override

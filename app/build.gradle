@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.longtv.zappy"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -32,7 +32,7 @@ android {
 
     productFlavors {
         dev {
-            buildConfigField("String", "BASE_URL", "\"http://14.225.205.30:8081/\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.1.19:8081/api/v1/\"")
         }
 
         product {
@@ -47,6 +47,10 @@ android {
 }
 
 dependencies {
+
+    def appCenterSdkVersion = '4.4.5'
+    implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
+    implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
@@ -75,4 +79,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+    implementation 'jp.wasabeef:blurry:4.0.1'
+    implementation 'androidx.palette:palette:1.0.0'
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.5'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.yarolegovich:discrete-scrollview:1.5.1'
 }

@@ -1,6 +1,7 @@
 package com.longtv.zappy.common.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.longtv.zappy.R;
+import com.longtv.zappy.common.Constants;
 import com.longtv.zappy.ui.HomeActivity;
 import com.longtv.zappy.ui.film.mediaplayer.MediaPlayerFragment;
 import com.longtv.zappy.utils.ImageUtils;
@@ -39,7 +41,9 @@ public class ContentMediaAdapter extends RecyclerView.Adapter<ContentMediaAdapte
         holder.ivCoverImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HomeActivity.getInstance().addFragment(R.id.container_fragment, new MediaPlayerFragment(), true, MediaPlayerFragment.class.getSimpleName());
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.TOOL_BAR, "Media");
+                HomeActivity.getInstance().addOrReplaceFragment(new MediaPlayerFragment(), bundle, true, MediaPlayerFragment.class.getSimpleName());
             }
         });
     }

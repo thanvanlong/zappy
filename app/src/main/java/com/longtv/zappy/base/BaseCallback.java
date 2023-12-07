@@ -20,16 +20,9 @@ public abstract class BaseCallback<T> implements Callback<ResponseDTO<T>> {
         String responseCode = NETWORK_ERROR;
         String message = "";
 
-        if (body != null && !body.isSuccess() && body.getErrorCode().equals(ResponseCode.NEED_BUY) ) {
-            Log.e("longtv", "onResponse: need buy" );
-            onNeedBuy(body.getMessage());
-            return;
+        if (!response.isSuccessful()) {
+            onError(response.code() + "", response.message());
         }
-//        if (body != null && !body.isSuccess() && !body.getErrorCode().equals(ResponseCode.LIMITED_DEVICE) ) {
-//            onError(body.getErrorCode(), body.getMessage());
-//            return;
-//        }
-
 
         if (response.isSuccessful() && body != null) {
             responseCode = body.getErrorCode();
@@ -37,37 +30,21 @@ public abstract class BaseCallback<T> implements Callback<ResponseDTO<T>> {
         }
         try {
             if (body == null || body.getErrorCode() == null) {
-                //TODO handle error
-                Log.e("longtv", "onResponse: error" );
                 return;
             }
 
             if (!ResponseCode.SUCCESS.equals(responseCode)) {
-                Log.e("longtv", "onResponse: error " + responseCode );
                 switch (body.getErrorCode()) {
                     case ResponseCode.UNAUTHORIZED:
                         onRequireLogin(message);
                         return;
                     case ResponseCode.REFRESH_TOKEN:
-                        //TODO get refresh token in cache
                         String refreshToken = "";
                         refreshToken(refreshToken);
-                        return;
-
-                    case ResponseCode.LIMITED_DEVICE:
-                        onLimitedDevice(body.getData(), message);
-                        return;
-
-                    case ResponseCode.ACCOUNT_EXIST:
-                        onError(body.getErrorCode(), body.getMessage());
                         return;
                     case ResponseCode.NETWORK_ERROR:
                         onError(body.getErrorCode(), body.getMessage());
                         return;
-                    case ResponseCode.NEED_BUY:
-                        onNeedBuy(body.getMessage());
-                        return;
-
                     default:
                         onError(body.getErrorCode(), body.getMessage());
                         return;

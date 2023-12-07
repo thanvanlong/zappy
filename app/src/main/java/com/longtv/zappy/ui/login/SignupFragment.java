@@ -1,5 +1,6 @@
 package com.longtv.zappy.ui.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.longtv.zappy.R;
 import com.longtv.zappy.base.BaseFragment;
+import com.longtv.zappy.common.dialog.SuccessDialog;
 import com.longtv.zappy.network.dto.LoginData;
 import com.longtv.zappy.network.dto.SignupRequest;
 import com.longtv.zappy.utils.AuthUtils;
@@ -41,8 +43,8 @@ public class SignupFragment extends BaseFragment<LoginPresenter, LoginActivity> 
 
     @Override
     public void onPrepareLayout() {
-//        Bundle receivedBundle = getArguments();
-//        phoneNumber = receivedBundle.getString("phoneNumber");
+        Bundle receivedBundle = getArguments();
+        phoneNumber = receivedBundle.getString("phoneNumber");
         setListener();
     }
 
@@ -57,23 +59,22 @@ public class SignupFragment extends BaseFragment<LoginPresenter, LoginActivity> 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (true) {
-                    getBaseActivity().addFragment(R.id.container, new ScreenPasswordFragment(), true, ScreenPasswordFragment.class.getSimpleName());
-                    return;
+                if (edtPassword.getText().toString().isEmpty() || edtEmail.getText().toString().isEmpty()
+                        || edtFirstName.getText().toString().isEmpty() || edtLastName.getText().toString().isEmpty()) {
+                    Toast.makeText(getBaseActivity(), "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 }
-                if (AuthUtils.validatePassword(edtPassword.getText().toString())){
+                else if (AuthUtils.validatePassword(edtPassword.getText().toString())){
                     if(edtConfirmPassword.getText().toString().equals(edtPassword.getText().toString())){
                         String email = edtEmail.getText().toString();
                         String password = edtPassword.getText().toString();
-                        String username = edtFirstName.getText().toString() + edtLastName.getText().toString();
-                        String address = "address";
-                        SignupRequest request = new SignupRequest(email, password, username, address);
+                        String username = edtFirstName.getText().toString() + " " + edtLastName.getText().toString();
+                        SignupRequest request = new SignupRequest(email, password, username, phoneNumber);
                         getPresenter().doSignup(request);
                     }else{
                         Toast.makeText(getBaseActivity(), "Hãy xác nhận lại mật khẩu", Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getBaseActivity(), "Mật khẩu phải có ít nhất 8 kí tự", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseActivity(), "Mật khẩu phải có ít nhất 6 kí tự", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -98,10 +99,31 @@ public class SignupFragment extends BaseFragment<LoginPresenter, LoginActivity> 
 
     @Override
     public void onSignupSucess() {
+        SuccessDialog successDialog = new SuccessDialog();
+        successDialog.init(getViewContext(), "");
+        successDialog.setListener(new SuccessDialog.ItemClickListener() {
+            @Override
+            public void btnYesClick() {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+                    startActivity(intent);
+                } catch (android.content.ActivityNotFoundException e) {
+                    Toast.makeText(getViewContext(), "There is no email client installed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void btnNoClick() {
+
+            }
+        });
+
+        successDialog.show(getChildFragmentManager(), "");
     }
 
     @Override
     public void onSignupError(String mess) {
-        Log.e("Signup", mess);
+        Toast.makeText(getViewContext(), mess, Toast.LENGTH_SHORT).show();
     }
 }

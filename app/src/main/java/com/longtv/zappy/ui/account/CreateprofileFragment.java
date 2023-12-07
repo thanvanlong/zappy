@@ -1,8 +1,7 @@
 package com.longtv.zappy.ui.account;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.TimePickerDialog;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,14 +10,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.MarginPageTransformer;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.longtv.zappy.R;
 import com.longtv.zappy.base.BaseFragment;
-import com.longtv.zappy.common.adapter.AgeCircleAdapter;
+import com.longtv.zappy.common.adapter.DiscreAdapter;
+import com.longtv.zappy.common.view.HorizontalItemDecoration;
+import com.longtv.zappy.network.dto.Profile;
+import com.longtv.zappy.ui.HomeActivity;
+import com.longtv.zappy.ui.home.HomeBoxFragment;
+import com.yarolegovich.discretescrollview.DiscreteScrollView;
+import com.yarolegovich.discretescrollview.InfiniteScrollAdapter;
+import com.yarolegovich.discretescrollview.transform.Pivot;
+import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import butterknife.BindView;
 
@@ -26,7 +36,7 @@ public class CreateprofileFragment extends BaseFragment<AccountPresenter, Accoun
     @BindView(R.id.btn_save_profile)
     protected Button btnSaveProfile;
     @BindView(R.id.vp2_age_profile)
-    protected ViewPager2 viewPager2;
+    protected DiscreteScrollView viewPager2;
     @BindView(R.id.iv_previous_slide_profile)
     protected ImageView ivPrevious;
     @BindView(R.id.iv_next_slide_profile)
@@ -64,6 +74,7 @@ public class CreateprofileFragment extends BaseFragment<AccountPresenter, Accoun
     public void onPrepareLayout() {
         setAdapterForViewPage2();
         setListener();
+        HomeActivity.getInstance().hideBottomBar();
     }
 
     @Override
@@ -74,58 +85,38 @@ public class CreateprofileFragment extends BaseFragment<AccountPresenter, Accoun
 
         viewPager2.setClipToPadding(false);
         viewPager2.setClipChildren(false);
-        viewPager2.setOffscreenPageLimit(5);
+        DiscreAdapter adapter = new DiscreAdapter();
+        InfiniteScrollAdapter wrapper = InfiniteScrollAdapter.wrap(adapter);
+        viewPager2.setAdapter(wrapper);
+        viewPager2.addItemDecoration(new HorizontalItemDecoration(35));
+        viewPager2.setItemTransformer(
+                new ScaleTransformer.Builder()
+                        .setMaxScale(1.15f)
+                        .setMinScale(0.8f)
+                        .setPivotX(Pivot.X.CENTER) // CENTER is a default one
+                        .setPivotY(Pivot.Y.CENTER) // CENTER is a default one
+                        .build());
 
-        MarginPageTransformer marginPageTransformer = new MarginPageTransformer(20);
-        viewPager2.setPageTransformer(marginPageTransformer);
-        viewPager2.setPageTransformer(new ViewPager2.PageTransformer() {
+        viewPager2.addOnItemChangedListener(new DiscreteScrollView.OnItemChangedListener<RecyclerView.ViewHolder>() {
             @Override
-            public void transformPage(@NonNull View page, float position) {
-                if(position == 0){
-                    ObjectAnimator translateX = ObjectAnimator.ofFloat(page, "scaleX",
-                            1f, 1.3f);
-                    ObjectAnimator translateY = ObjectAnimator.ofFloat(page, "scaleY",
-                            1f, 1.3f);
-//                    page.setScaleX(1.3f);
-//                    page.setScaleY(1.3f);
-                    translateY.setDuration(100);
-                    translateX.setDuration(100);
-                    translateY.start();
-                    translateX.start();
-                } else {
-                    page.setScaleX(0.8f);
-                    page.setScaleY(0.8f);
-                }
+            public void onCurrentItemChanged(@Nullable RecyclerView.ViewHolder viewHolder, int adapterPosition) {
+                age = wrapper.getRealCurrentPosition();
             }
         });
 
-        AgeCircleAdapter adapter = new AgeCircleAdapter(this);
-        viewPager2.setAdapter(adapter);
     }
     public void setListener(){
-
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                age = position + 1;
-                Log.e("Curren Age:", String.valueOf(position+1));
-            }
-        });
-
         ivPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currentedPos = viewPager2.getCurrentItem();
-                if(currentedPos > 0) viewPager2.setCurrentItem(currentedPos-1);
+                viewPager2.smoothScrollToPosition(Math.max(viewPager2.getCurrentItem() - 1, 0));
             }
         });
-
+//
         ivNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currentedPos = viewPager2.getCurrentItem();
-                if(currentedPos < 14) viewPager2.setCurrentItem(currentedPos+1);
+                viewPager2.smoothScrollToPosition(viewPager2.getCurrentItem() + 1);
             }
         });
 
@@ -206,7 +197,16 @@ public class CreateprofileFragment extends BaseFragment<AccountPresenter, Accoun
         btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // làm gì đó để lưu profile
+                Profile profile = new Profile();
+                profile.setNickname("");
+                profile.setTimeOnScreen(hr * 3600L + min * 60L);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    profile.setDob(LocalDateTime.now().minus(age, ChronoUnit.YEARS));
+                }
+
+                btnSaveProfile.requestFocus();
+                HomeActivity.getInstance().addFragment(R.id.container_fragment, new HomeBoxFragment(), false, HomeBoxFragment.class.getSimpleName());
+//                getPresenter().createProfile();
             }
         });
     }

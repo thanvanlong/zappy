@@ -69,11 +69,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         fragmentTransaction.replace(containerId, fragment, tag);
 
         if (addToBackStack) {
-            FragmentManager manager = getSupportFragmentManager();
-            Fragment topFragment = manager.findFragmentById(R.id.container_fragment);
-            if (!(topFragment instanceof MediaPlayerFragment)) {
-                fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
-            }
+            fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
         }
 
         fragmentTransaction.commitAllowingStateLoss();

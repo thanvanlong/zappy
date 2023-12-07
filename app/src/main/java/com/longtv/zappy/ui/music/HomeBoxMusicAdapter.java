@@ -1,5 +1,6 @@
 package com.longtv.zappy.ui.music;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.longtv.zappy.R;
+import com.longtv.zappy.common.Constants;
 import com.longtv.zappy.ui.HomeActivity;
 import com.longtv.zappy.ui.music.detail.HomeBoxMusicPlayerFragment;
 import com.longtv.zappy.utils.ImageUtils;
@@ -31,7 +33,9 @@ public class HomeBoxMusicAdapter extends RecyclerView.Adapter<HomeBoxMusicAdapte
         holder.mRootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HomeActivity.getInstance().addFragment(R.id.container_fragment, new HomeBoxMusicPlayerFragment(), false, HomeBoxMusicPlayerFragment.class.getSimpleName());
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.TOOL_BAR, "Media");
+                HomeActivity.getInstance().addOrReplaceFragment(new HomeBoxMusicPlayerFragment(), bundle, true, HomeBoxMusicPlayerFragment.class.getSimpleName());
             }
         });
     }
