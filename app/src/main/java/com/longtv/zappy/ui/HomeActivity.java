@@ -38,6 +38,8 @@ import com.longtv.zappy.base.BasePresenter;
 import com.longtv.zappy.ui.film.HomeBoxFilmFragment;
 import com.longtv.zappy.ui.home.HomeBoxFragment;
 import com.longtv.zappy.ui.music.HomeBoxMusicFragment;
+import com.longtv.zappy.ui.payment.PackagePaymentFragment;
+import com.longtv.zappy.ui.stats.StatsScreenFragment;
 import com.longtv.zappy.ui.story.HomeBoxStoryFragment;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
@@ -109,7 +111,7 @@ public class HomeActivity extends BaseActivity {
                     case R.id.navigation_home:
                         Bundle home = new Bundle();
                         home.putString(Constants.TOOL_BAR, "Home");
-                        addOrReplaceFragment(new HomeBoxFragment(), home, false, HomeBoxFragment.class.getSimpleName());
+                        addOrReplaceFragment(new StatsScreenFragment(), home, false, HomeBoxFragment.class.getSimpleName());
                         break;
                     case R.id.navigation_video:
                         Bundle vod = new Bundle();
@@ -257,24 +259,24 @@ public class HomeActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         FragmentManager manager = getSupportFragmentManager();
-        if (manager.getFragments().size() == 2) {
-            InfoYesNoDialog infoYesNoDialog = new InfoYesNoDialog();
-            infoYesNoDialog.init(getViewContext(), "");
-            infoYesNoDialog.setListener(new SuccessDialog.ItemClickListener() {
-                @Override
-                public void btnYesClick() {
-
-                }
-
-                @Override
-                public void btnNoClick() {
-
-                }
-            });
-
-            infoYesNoDialog.show(getSupportFragmentManager(), "");
-            return;
-        }
+//        if (manager.getFragments().size() == 2) {
+//            InfoYesNoDialog infoYesNoDialog = new InfoYesNoDialog();
+//            infoYesNoDialog.init(getViewContext(), "");
+//            infoYesNoDialog.setListener(new SuccessDialog.ItemClickListener() {
+//                @Override
+//                public void btnYesClick() {
+//
+//                }
+//
+//                @Override
+//                public void btnNoClick() {
+//
+//                }
+//            });
+//
+//            infoYesNoDialog.show(getSupportFragmentManager(), "");
+//            return;
+//        }
         super.onBackPressed();
         titles.pop();
         tvTitle.setText(titles.peek());
