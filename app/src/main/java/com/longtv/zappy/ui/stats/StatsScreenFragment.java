@@ -47,6 +47,7 @@ public class StatsScreenFragment extends BaseFragment {
     public void onPrepareLayout() {
         HomeActivity.getInstance().hideBottomBar();
         HomeActivity.getInstance().toggleCoin(View.GONE);
+        HomeActivity.getInstance().handleBtnBack(true);
         setupBarChart(chart);
         List<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(1, 50));
