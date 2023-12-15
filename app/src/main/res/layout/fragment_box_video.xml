@@ -8,7 +8,7 @@
         android:id="@+id/shimmer_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:padding="10dp">
         <include layout="@layout/shimmer_layout_home"/>
     </com.facebook.shimmer.ShimmerFrameLayout>
@@ -59,64 +59,95 @@
        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/container_banner"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/container_search"
-        app:layout_constraintStart_toStartOf="parent"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/size_20"
-        android:gravity="center_horizontal">
-        <androidx.cardview.widget.CardView
+        android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="10dp"
-            app:cardCornerRadius="5dp"
-            android:backgroundTint="@color/white">
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vp_banner"
+            android:layout_height="match_parent">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
-                />
-        </androidx.cardview.widget.CardView>
-        <me.relex.circleindicator.CircleIndicator3
-            android:id="@+id/indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="@dimen/size_10"
-            app:ci_drawable="@drawable/circle_indicator"/>
-    </LinearLayout>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_no_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Không có dữ liệu"
+                    android:textAlignment="center"
+                    android:textColor="@color/deep_purple"
+                    android:fontFamily="@font/inter_regular"
+                    android:layout_marginTop="100dp"
+                    android:visibility="gone"
+                    android:textAllCaps="true" />
+                <LinearLayout
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/container_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/container_search"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/size_20"
+                        android:gravity="center_horizontal">
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:elevation="10dp"
+                            app:cardCornerRadius="5dp"
+                            android:backgroundTint="@color/white">
+                            <androidx.viewpager2.widget.ViewPager2
+                                android:id="@+id/vp_banner"
+                                android:layout_width="match_parent"
+                                android:layout_height="240dp"
+                                />
+                        </androidx.cardview.widget.CardView>
+                        <me.relex.circleindicator.CircleIndicator3
+                            android:id="@+id/indicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="@dimen/size_10"
+                            app:ci_drawable="@drawable/circle_indicator"/>
+                    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/size_20"
-        android:paddingVertical="@dimen/size_10"
-        app:layout_constraintTop_toBottomOf="@id/container_banner">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="@dimen/size_20"
+                        android:paddingVertical="@dimen/size_10"
+                        app:layout_constraintTop_toBottomOf="@id/container_banner">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_category"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            app:tabMode="scrollable"
-            app:tabIndicator="@drawable/bg_tab_music"
-            app:tabIndicatorAnimationMode="elastic"
-            app:tabIndicatorGravity="stretch"
-            app:tabIndicatorFullWidth="true"
-            app:tabSelectedTextAppearance="@color/white"
-            app:tabBackground="@drawable/bg_tab_music"
-            app:tabMinWidth="140dp"
-            app:tabTextAppearance="@style/MineCustomTabText"
-            app:tabSelectedTextColor="@color/white"/>
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/tab_category"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            app:tabMode="scrollable"
+                            app:tabIndicator="@drawable/bg_tab_music"
+                            app:tabIndicatorAnimationMode="elastic"
+                            app:tabIndicatorGravity="stretch"
+                            app:tabIndicatorFullWidth="true"
+                            app:tabSelectedTextAppearance="@color/white"
+                            app:tabBackground="@drawable/bg_tab_music"
+                            app:tabMinWidth="140dp"
+                            app:tabTextAppearance="@style/MineCustomTabText"
+                            app:tabSelectedTextColor="@color/white"/>
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_contents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:id="@+id/vp_contents"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

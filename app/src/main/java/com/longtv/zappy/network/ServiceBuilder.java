@@ -20,8 +20,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceBuilder {
-//    private static final String BASE_URL = BuildConfig.BASE_URL;
-    private static final String BASE_URL = "https://d6da-171-224-177-51.ngrok-free.app/";
+    private static final String BASE_URL = BuildConfig.BASE_URL;
+//    private static final String BASE_URL = "https://d6da-171-224-177-51.ngrok-free.app/";
 
     private static Retrofit sInstance;
     private static Retrofit sInstancePayment;

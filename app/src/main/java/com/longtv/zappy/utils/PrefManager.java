@@ -4,14 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class PrefManager {
-
-
     private static final String MY_PREFERENCES = "LONG_TV";
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
     private static final String REFRESH_TOKEN = "REFRESH_TOKEN";
     private static final String IS_LOGIN = "IS_LOGIN";
     private static final String IS_FIRST_START = "IS_FIRST_START";
-    private static final String LIST_CATEGORY = "IS_FIRST_START";
+    private static final String LIST_CATEGORY_FILM = "IS_FIRST_START_FILM";
     private static final String HOME_DATA = "HOME_DATA";
     private static final String HISTORY_SEARCH = "HISTORY_SEARCH";
 
@@ -55,14 +53,14 @@ public class PrefManager {
         return "";
     }
 
-    public static void saveListCategory(Context context, String data) {
+    public static void saveListCategoryFilm(Context context, String data) {
         if (context == null) {
             return;
         }
         SharedPreferences preferences = getPreference(context);
         if (preferences != null) {
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(LIST_CATEGORY, data);
+            editor.putString(LIST_CATEGORY_FILM, data);
             editor.apply();
         }
     }

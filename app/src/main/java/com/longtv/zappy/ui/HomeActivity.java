@@ -30,6 +30,7 @@ import com.longtv.zappy.ui.film.HomeBoxFilmFragment;
 import com.longtv.zappy.ui.home.HomeBoxFragment;
 import com.longtv.zappy.ui.music.HomeBoxMusicFragment;
 import com.longtv.zappy.ui.story.HomeBoxStoryFragment;
+import com.longtv.zappy.ui.story.ReadingStoryFragment;
 import com.longtv.zappy.utils.DeviceUtils;
 
 import java.util.List;
