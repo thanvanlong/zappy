@@ -11,14 +11,14 @@ public class SignupRequest implements Serializable {
     private String password;
     @SerializedName("username")
     private String username;
-    @SerializedName("address")
-    private String address;
+    @SerializedName("phone")
+    private String phone;
 
-    public SignupRequest(String email, String password, String username, String address) {
+    public SignupRequest(String email, String password, String username, String phone) {
         this.email = email;
         this.password = password;
         this.username = username;
-        this.address = address;
+        this.phone = phone;
     }
 
     public String getEmail() {
@@ -43,13 +43,5 @@ public class SignupRequest implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }

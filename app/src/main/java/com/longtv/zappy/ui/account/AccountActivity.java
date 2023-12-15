@@ -16,7 +16,7 @@ public class AccountActivity extends BaseActivity<AccountPresenter> {
 
     @Override
     public void onPrepareLayout() {
-        addFragment(R.id.container_account, new CreateprofileFragment(), true, CreateprofileFragment.class.getSimpleName());
+        addFragment(R.id.container_account, new ManageAccountFragment(), true, CreateprofileFragment.class.getSimpleName());
     }
 
     @Override

@@ -9,7 +9,7 @@ public class AuthUtils {
     }
     public static boolean validatePassword(String password){
         // Định dạng chuỗi regex cho mật khẩu phải có ít nhất 8 kí tự
-        String patternPassword = ".{8,}";
+        String patternPassword = ".{6,}";
 
         return password.matches(patternPassword);
     }

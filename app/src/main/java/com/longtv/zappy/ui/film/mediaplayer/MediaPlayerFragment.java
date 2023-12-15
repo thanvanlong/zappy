@@ -81,6 +81,7 @@ public class MediaPlayerFragment extends BaseFragment implements Player.Listener
         rcvContent.setAdapter(new ContentMediaAdapter(getViewContext()));
 
         HomeActivity.getInstance().hideBottomBar();
+        HomeActivity.getInstance().toggleTopBar(View.GONE);
 
         setListener();
 
@@ -110,7 +111,6 @@ public class MediaPlayerFragment extends BaseFragment implements Player.Listener
         sbProgress.setProgress(position);
         sbProgress.setMax(duration);
         tvEndTime.setText(StringUtils.covertSecondToHMS(duration));
-        Log.e("anth", "initProgress: " + duration);
         handler = new Handler();
         runnable = new Runnable() {
             @Override
@@ -162,15 +162,17 @@ public class MediaPlayerFragment extends BaseFragment implements Player.Listener
         ivFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (DeviceUtils.isLandscape(getViewContext())) {
-                    DeviceUtils.forceRotateScreen(getViewContext(), Configuration.ORIENTATION_PORTRAIT);
-                    DeviceUtils.showNavigationBar(getViewContext());
-                    ivFullScreen.setImageResource(R.drawable.ic_fullscreen);
-                } else {
-                    DeviceUtils.forceRotateScreen(getViewContext(), Configuration.ORIENTATION_LANDSCAPE);
-                    DeviceUtils.hideNavigationBar(getViewContext());
-                    ivFullScreen.setImageResource(R.drawable.ic_exit_fullscreen);
-                }
+//                if (DeviceUtils.isLandscape(getViewContext())) {
+//                    DeviceUtils.forceRotateScreen(getViewContext(), Configuration.ORIENTATION_PORTRAIT);
+//                    DeviceUtils.showNavigationBar(getViewContext());
+//                    ivFullScreen.setImageResource(R.drawable.ic_fullscreen);
+//                } else {
+//                    DeviceUtils.forceRotateScreen(getViewContext(), Configuration.ORIENTATION_LANDSCAPE);
+//                    DeviceUtils.hideNavigationBar(getViewContext());
+//                    ivFullScreen.setImageResource(R.drawable.ic_exit_fullscreen);
+//                }
+
+                HomeActivity.getInstance().enterPictureInPictureMode();
             }
         });
 
@@ -192,16 +194,20 @@ public class MediaPlayerFragment extends BaseFragment implements Player.Listener
 
 
     public void showControl() {
-        handler.postDelayed(runnable, 300);
-        containerControl.setVisibility(View.VISIBLE);
-        layoutProgress.setVisibility(View.VISIBLE);
+        try {
+            handler.postDelayed(runnable, 300);
+            containerControl.setVisibility(View.VISIBLE);
+            layoutProgress.setVisibility(View.VISIBLE);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideControl();
-            }
-        }, 4000);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    hideControl();
+                }
+            }, 4000);
+        } catch (Exception e) {
+
+        }
     }
 
     public void hideControl() {

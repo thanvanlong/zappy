@@ -24,11 +24,11 @@
             android:textColor="@color/black"/>
 
         <ImageView
-            android:layout_width="25dp"
+            android:layout_width="45dp"
             android:layout_height="25dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/ic_star"/>
+            android:src="@drawable/ic_stars"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -98,6 +98,7 @@
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/vp_news"
                         android:layout_width="match_parent"
+                        android:saveEnabled="false"
                         android:layout_height="160dp" />
                 </androidx.cardview.widget.CardView>
 
@@ -141,7 +142,8 @@
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp_contents"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:saveEnabled="false"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

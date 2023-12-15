@@ -8,10 +8,14 @@
     <color name="deep_pink">#F35672</color>
     <color name="normal_pink">#F58A9E</color>
     <color name="light_pink">#F6B0BD</color>
+    <color name="light_pink_v2">#B2D1CB</color>
     <color name="light_green">#86D296</color>
     <color name="gray">#6B6B6B</color>
+    <color name="dark_gray">#4C4C4C</color>
+    <color name="grays">#66575757</color>
     <color name="normal_gray">#ABAAAA</color>
-    <color name="light_gray">#d1d4db</color>
-    <color name="light_yellow">#FFFF33</color>
+    <color name="light_gray">#FFFFFF</color>
+    <color name="light_yellow">#FFEB3B</color>
     <color name="colorPrimary">#121212</color>
+    <color name="transparent">#00000000</color>
 </resources>

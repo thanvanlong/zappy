@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingHorizontal="40dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingHorizontal="28dp"
+        android:paddingVertical="@dimen/size_10"
+        android:background="@drawable/bg_dialog"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/container_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/iv_notify"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Thông báo"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/inter_medium"
+
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/size_20"
+                android:layout_below="@+id/container_bg">
+                <TextView
+                    android:id="@+id/txt_content_notification"
+                    android:layout_width="match_parent"
+                    android:padding="15dp"
+                    android:textColor="@color/black"
+                    android:text="Bạn đã đăng ký thành công. Hãy vào mail của bạn để kích hoạt tài khoản nhé"
+                    android:textAlignment="center"
+                    android:inputType="textMultiLine"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <Button
+                        android:id="@+id/btn_yes"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="@dimen/size_20"
+                        android:background="@drawable/bg_btn_login"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintWidth_percent="0.4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:text="Đồng ý"/>
+
+                    <Button
+                        android:id="@+id/btn_no"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="@dimen/size_20"
+                        android:textColor="@color/deep_purple"
+                        android:background="@drawable/bg_btn_sigup"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintWidth_percent="0.4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:text="Đồng ý"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="@dimen/size_10"
+        app:layout_constraintTop_toTopOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
