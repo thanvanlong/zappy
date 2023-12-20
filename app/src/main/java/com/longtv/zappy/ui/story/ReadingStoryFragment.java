@@ -28,7 +28,6 @@ public class ReadingStoryFragment extends BaseFragment {
     public void onPrepareLayout() {
         PageStoryAdapter adapter = new PageStoryAdapter(pages);
         BookFlipPageTransformer2 transformer2 = new BookFlipPageTransformer2();
-        Log.e("anth", "onPrepareLayout: check sss");
         transformer2.setEnableScale(true);
         transformer2.setScaleAmountPercent(10f);
 

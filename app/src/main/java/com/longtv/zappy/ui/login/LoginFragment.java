@@ -87,15 +87,12 @@ public class LoginFragment extends BaseFragment<LoginPresenter, LoginActivity> i
 
     @Override
     public void onLoginSucess(LoginData data) {
-        if (data.getProfiles() != null && !data.getProfiles().isEmpty()) {
-            PrefManager.setLogin(getViewContext(), true);
-            startActivity(new Intent(getViewContext(), HomeActivity.class));
-            getViewContext().finish();
-        } else {
-            PrefManager.setLogin(getViewContext(), true);
-            startActivity(new Intent(getViewContext(), AccountActivity.class));
-            getViewContext().finish();
-        }
+        PrefManager.setLogin(getViewContext(), true);
+        PrefManager.saveAccessTokenInfo(getViewContext(), data.getAccessToken());
+        PrefManager.saveUserData(getViewContext(), new Gson().toJson(data));
+        PrefManager.saveProfileData(getViewContext(), data.getProfiles());
+        startActivity(new Intent(getViewContext(), HomeActivity.class));
+        getViewContext().finish();
     }
 
     @Override

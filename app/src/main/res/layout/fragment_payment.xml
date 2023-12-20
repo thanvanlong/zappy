@@ -34,6 +34,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:cardCornerRadius="5dp"
                 app:cardBackgroundColor="@color/deep_pink"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
                 app:layout_constraintStart_toStartOf="parent">
                 <TextView
                     android:layout_width="match_parent"
@@ -52,6 +54,8 @@
                 app:layout_constraintWidth_percent="0.45"
                 app:layout_constraintTop_toTopOf="parent"
                 app:cardCornerRadius="5dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
                 app:cardBackgroundColor="@color/normal_gray"
                 app:layout_constraintEnd_toEndOf="parent">
                 <TextView
@@ -120,6 +124,7 @@
         android:layout_weight="2"
         android:gravity="bottom">
         <Button
+            android:id="@+id/btn_payment"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text="Thanh toán"

@@ -7,6 +7,8 @@ import java.util.List;
 public interface Constants {
     String[] category = new String[] {"Music", "Story", "Movie", "Learning"};
     String TOOL_BAR = "tool_bar";
+    String DATA = "data";
+    String FROM_HOME = "from_home";
 
     List<String> topFragment = Arrays.asList("HomeBoxFragment", "HomeBoxFilmFragment", "HomeBoxMusicFragment", "HomeBoxStoryFragment");
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.longtv.zappy.App;
 import com.longtv.zappy.BuildConfig;
+import com.longtv.zappy.ui.HomeActivity;
 import com.longtv.zappy.utils.PrefManager;
 
 import java.io.IOException;
@@ -42,8 +43,8 @@ public class ServiceBuilder {
                         Request original = chain.request();
                         Request.Builder builder = original.newBuilder();
                         builder.addHeader("Content-Type", "application/json");
-                        if (!PrefManager.getAccessToken(App.getInstance()).matches("")){
-                            builder.addHeader("Authorization", "Bearer " + PrefManager.getAccessToken(App.getInstance()));
+                        if (!PrefManager.getAccessToken(HomeActivity.getInstance()).matches("")){
+                            builder.addHeader("Authorization", "Bearer " + PrefManager.getAccessToken(HomeActivity.getInstance()));
                         }
                         Request request = builder.method(original.method(), original.body()).build();
                         return chain.proceed(request);
@@ -62,6 +63,44 @@ public class ServiceBuilder {
 
         }
         return sInstance;
+    }
+
+    private synchronized static Retrofit getRetrofitPayment() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        long nomalTimeout = 15;
+        OkHttpClient client = new OkHttpClient.Builder()
+                .readTimeout(nomalTimeout, TimeUnit.SECONDS)
+                .writeTimeout(nomalTimeout, TimeUnit.SECONDS)
+                .connectTimeout(nomalTimeout, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .retryOnConnectionFailure(true)
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request original = chain.request();
+                        Request.Builder builder = original.newBuilder();
+                        builder.addHeader("Content-Type", "application/json");
+                        if (!PrefManager.getAccessToken(HomeActivity.getInstance()).matches("")){
+                            builder.addHeader("Authorization", "Bearer " + PrefManager.getAccessToken(HomeActivity.getInstance()));
+                        }
+                        Request request = builder.method(original.method(), original.body()).build();
+                        return chain.proceed(request);
+                    }
+                })
+                .build();
+
+        if (sInstancePayment == null) {
+            // User agent
+            sInstancePayment = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .client(client)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .build();
+
+        }
+        return sInstancePayment;
     }
 
     private static Retrofit getRetrofitWithoutAuth(){
@@ -99,6 +138,14 @@ public class ServiceBuilder {
     public static ZappyService getService() {
         if (dreamService == null) {
             dreamService = getRetrofit().create(ZappyService.class);
+        }
+        return dreamService;
+    }
+
+
+    public static ZappyService getServicePayment() {
+        if (dreamService == null) {
+            dreamService = getRetrofitPayment().create(ZappyService.class);
         }
         return dreamService;
     }

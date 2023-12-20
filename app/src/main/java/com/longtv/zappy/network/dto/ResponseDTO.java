@@ -15,8 +15,6 @@ public class ResponseDTO<T> implements Serializable {
     private boolean success;
     @SerializedName("statusCode")
     private int statusCode;
-    @SerializedName("meta")
-    private MetaData meta;
 
     public int getStatusCode() {
         return statusCode;
@@ -24,14 +22,6 @@ public class ResponseDTO<T> implements Serializable {
 
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
-    }
-
-    public MetaData getMeta() {
-        return meta;
-    }
-
-    public void setMeta(MetaData meta) {
-        this.meta = meta;
     }
 
     public boolean isSuccess() {

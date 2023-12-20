@@ -2,6 +2,8 @@ package com.longtv.zappy.network.dto;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class ContentType {
     @SerializedName("name")
     private String name;
@@ -9,6 +11,16 @@ public class ContentType {
     private int type;
     @SerializedName("id")
     private int id;
+    @SerializedName("medias")
+    private List<Content> contents;
+
+    public List<Content> getContents() {
+        return contents;
+    }
+
+    public void setContents(List<Content> contents) {
+        this.contents = contents;
+    }
 
     public String getName() {
         return name;

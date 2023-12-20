@@ -307,17 +307,6 @@
                         android:fontFamily="@font/inter_regular" />
 
                     <TextView
-                        android:id="@+id/item_film_actors"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:textColor="@color/normal_gray"
-                        android:textSize="11sp"
-                        android:text="Diễn viên: Shin Hyun-bin,  Lee Sung Min,  Song Joong Ki"
-                        android:fontFamily="@font/inter_regular" />
-
-                    <TextView
                         android:id="@+id/item_film_author"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -421,7 +410,7 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:padding="5dp"
                 android:orientation="vertical">
 
@@ -429,9 +418,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tương tự"
+                    android:paddingHorizontal="@dimen/size_10"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:layout_marginBottom="@dimen/size_10"/>
+
+                <TextView
+                    android:id="@+id/tv_no_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Không có dữ liệu"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:gravity="center"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcv_content"

@@ -28,6 +28,7 @@ import com.longtv.zappy.R;
 import com.longtv.zappy.common.Constants;
 import com.longtv.zappy.common.dialog.InfoYesNoDialog;
 import com.longtv.zappy.common.dialog.SuccessDialog;
+import com.longtv.zappy.ui.account.CreateprofileFragment;
 import com.longtv.zappy.ui.account.ManageAccountFragment;
 import com.longtv.zappy.ui.account.SettingFragment;
 import com.longtv.zappy.ui.film.mediaplayer.MediaPlayerFragment;
@@ -41,6 +42,8 @@ import com.longtv.zappy.ui.music.HomeBoxMusicFragment;
 import com.longtv.zappy.ui.payment.PackagePaymentFragment;
 import com.longtv.zappy.ui.stats.StatsScreenFragment;
 import com.longtv.zappy.ui.story.HomeBoxStoryFragment;
+import com.longtv.zappy.ui.story.StoryDetailFragment;
+import com.longtv.zappy.utils.PrefManager;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
@@ -74,9 +77,16 @@ public class HomeActivity extends BaseActivity {
     ImageView ivSetting;
     @BindView(R.id.layout_coin)
     RelativeLayout layoutCoin;
-
     private Stack<String> titles = new Stack<>();
+    private int profileId;
 
+    public int getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(int profileId) {
+        this.profileId = profileId;
+    }
 
     private static HomeActivity mInstance;
     public static synchronized void setmInstance(HomeActivity mInstance) {
@@ -91,6 +101,10 @@ public class HomeActivity extends BaseActivity {
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
+    }
+
+    public void setupBottomNav(int id) {
+        bottomNavigationView.setSelectedItemId(id);
     }
 
     @Override
@@ -113,7 +127,7 @@ public class HomeActivity extends BaseActivity {
                     case R.id.navigation_home:
                         Bundle home = new Bundle();
                         home.putString(Constants.TOOL_BAR, "Home");
-                        addOrReplaceFragment(new StatsScreenFragment(), home, false, HomeBoxFragment.class.getSimpleName());
+                        addOrReplaceFragment(new StoryDetailFragment(), home, false, HomeBoxFragment.class.getSimpleName());
                         break;
                     case R.id.navigation_video:
                         Bundle vod = new Bundle();
@@ -130,7 +144,31 @@ public class HomeActivity extends BaseActivity {
                 return true;
             }
         });
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+
+        //!(PrefManager.getUserData(getViewContext()) != null
+        //                && PrefManager.getUserData(getViewContext()).getProfiles() != null)
+        if (
+                false
+        ) {
+            if (PrefManager.getUserData(getViewContext()).getProfiles().size() > 0) {
+                Bundle str = new Bundle();
+                str.putString(Constants.TOOL_BAR, "Account");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ctnBtnBack.setVisibility(View.GONE);
+                        hideBottomBar();
+                    }
+                }, 500);
+                addOrReplaceFragment(new ManageAccountFragment(), str, true, ManageAccountFragment.class.getSimpleName());
+            } else {
+                Bundle str = new Bundle();
+                str.putString(Constants.TOOL_BAR, "Account");
+                addOrReplaceFragment(new CreateprofileFragment(), str, true, ManageAccountFragment.class.getSimpleName());
+            }
+        } else {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        }
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,6 +222,10 @@ public class HomeActivity extends BaseActivity {
             fragment.setArguments(args);
         }
 
+        if (addToBackStack) {
+            ctnBtnBack.setVisibility(View.VISIBLE);
+        }
+
         if (args != null && args.getString(Constants.TOOL_BAR) != null) {
             tvTitle.setText(args.getString(Constants.TOOL_BAR));
             titles.add(args.getString(Constants.TOOL_BAR));
@@ -233,6 +275,7 @@ public class HomeActivity extends BaseActivity {
 
     @SuppressLint("ResourceAsColor")
     public void handleBtnBack(boolean needBack) {
+        ctnBtnBack.setVisibility(View.VISIBLE);
         if (needBack) {
             ivBack.setImageResource(R.drawable.ic_arrow_back_deep_purple);
             ivBack.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.bg_avatar_v2));
@@ -300,6 +343,12 @@ public class HomeActivity extends BaseActivity {
     @Override
     public BasePresenter onCreatePresenter() {
         return null;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.e("anth", "onNewIntent: " + intent.getData());
     }
 
     private void startWalkthroughScreensActivity() {

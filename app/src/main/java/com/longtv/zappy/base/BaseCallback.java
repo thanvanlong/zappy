@@ -59,6 +59,7 @@ public abstract class BaseCallback<T> implements Callback<ResponseDTO<T>> {
                 onRequest(call.request().toString(), response.code()+"", body.getErrorCode());
             }
         } catch (IllegalStateException | JsonSyntaxException | NullPointerException ex) {
+            Log.e("anth", "onResponse: ", ex);
             try {
             } catch (IllegalStateException | NullPointerException | JsonSyntaxException e) {
 

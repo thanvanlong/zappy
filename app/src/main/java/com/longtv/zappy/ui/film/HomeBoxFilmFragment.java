@@ -1,5 +1,6 @@
 package com.longtv.zappy.ui.film;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -30,9 +32,11 @@ import com.longtv.zappy.common.Constants;
 import com.longtv.zappy.common.adapter.ContentBannerAdapter;
 import com.longtv.zappy.network.dto.Content;
 import com.longtv.zappy.network.dto.ContentType;
+import com.longtv.zappy.network.dto.DataListDTO;
 import com.longtv.zappy.ui.HomeActivity;
 import com.longtv.zappy.utils.PrefManager;
 
+import java.util.HashMap;
 import java.util.List;
 import com.longtv.zappy.common.adapter.SearchAdapter;
 import com.longtv.zappy.common.view.HorizontalItemDecoration;
@@ -40,6 +44,7 @@ import com.longtv.zappy.ui.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -66,7 +71,11 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
     ShimmerFrameLayout shimmerFrameLayout;
     private int page = 0;
     private int currentPage = 0;
-    private List<ContentType> contentTypes;
+    private List<ContentType> contentTypes = new ArrayList<>();
+    private ContentType currentType;
+    private Map<String, List<Content>> data = new HashMap<>();
+    private HomeBoxFilmAdapter homeBoxFilmAdapter;
+    private boolean isFirstRender = true;
     @Override
     public int getLayoutId() {
         return R.layout.fragment_box_video;
@@ -81,6 +90,7 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
     @Override
     public void onPrepareLayout() {
         HomeActivity.getInstance().toggleTopBar(8);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
         ContentBannerAdapter contentNewsAdapter = new ContentBannerAdapter(getViewContext());
         vpBanner.setAdapter(contentNewsAdapter);
         mIndicator.setViewPager(vpBanner);
@@ -109,19 +119,29 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
         };
         handler.postDelayed(runnable, 5000);
 
-        vpContents.setAdapter(new HomeBoxFilmAdapter());
-        new TabLayoutMediator(tbCategory, vpContents,
-                (tab, position) -> tab.setText(Constants.category[position])
-        ).attach();
+//        rcvSearch.setLayoutManager(new LinearLayoutManager(getViewContext(), LinearLayoutManager.VERTICAL, false));
+//        rcvSearch.addItemDecoration(new HorizontalItemDecoration(20));
+//        rcvSearch.setAdapter(new SearchAdapter());
 
-        rcvSearch.setLayoutManager(new LinearLayoutManager(getViewContext(), LinearLayoutManager.VERTICAL, false));
-        rcvSearch.addItemDecoration(new HorizontalItemDecoration(20));
-        rcvSearch.setAdapter(new SearchAdapter());
+        vpContents.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if (!isFirstRender) {
+                    JsonObject filter = new JsonObject();
+                    currentType = contentTypes.get(position);
+                    filter.addProperty("genres.id", currentType.getId() + "");
+                    getPresenter().getMovies(filter);
+                }
+            }
+        });
+
+        loadData();
     }
 
     @OnTextChanged(R.id.edt_search)
     public void onSearch() {
-        Log.e("anth", "onSearch: " + edtSearch.getText().toString());
+
     }
 
     @OnClick(R.id.iv_voice_search)
@@ -137,7 +157,6 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
         try {
             startActivityForResult(voiceSeachIntent, VOICE_SEARCH_REQUEST_CODE);
         } catch (Exception e) {
-            Log.e("anth", "onVoiceSearch: ", e);
             Toast.makeText(getViewContext(), "Loi mat roi", Toast.LENGTH_SHORT).show();
         }
     }
@@ -168,20 +187,50 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
     }
 
     @Override
-    public void onLoadGenreSuccess(List<ContentType> contentTypes) {
-        this.contentTypes = contentTypes;
+    public void onLoadGenreSuccess(DataListDTO<ContentType> contentTypes) {
         JsonObject filter = new JsonObject();
-        filter.addProperty("genres.id", contentTypes.get(0).getId());
-        getPresenter().getMovies(filter);
+        filter.addProperty("genres.id", contentTypes.getResults().get(0).getId() + "");
+        this.contentTypes.addAll(contentTypes.getResults());
+        for (ContentType contentType:
+             this.contentTypes) {
+            data.put(contentType.getId() + "", contentType.getContents());
+        }
+        currentType = contentTypes.getResults().get(0);
+        homeBoxFilmAdapter = new HomeBoxFilmAdapter(getViewContext(), data);
+        vpContents.setAdapter(homeBoxFilmAdapter);
+        shimmerFrameLayout.setVisibility(View.GONE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new TabLayoutMediator(tbCategory, vpContents,
+                        (tab, position) -> tab.setText(HomeBoxFilmFragment.this.contentTypes.get(position).getName())
+                ).attach();
+            }
+        }, 500);
+    }
+
+    private void initView(List<Content> contents) {
+        shimmerFrameLayout.setVisibility(View.GONE);
+        data.put(currentType.getId() + "", contents);
+        homeBoxFilmAdapter = new HomeBoxFilmAdapter(getViewContext(), data);
+        vpContents.setAdapter(homeBoxFilmAdapter);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isFirstRender = false;
+            }
+        }, 1000);
     }
 
     @Override
     public void onLoadGenreError(String message) {
-
+        shimmerFrameLayout.setVisibility(View.GONE);
     }
 
     @Override
-    public void onLoadMoviesSuccess(List<Content> contents) {
+    public void onLoadMoviesSuccess(DataListDTO<Content> contents) {
+        data.put(currentType.getId() + "", contents.getResults());
+        initView(contents.getResults());
 
     }
 

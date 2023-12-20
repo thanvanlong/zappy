@@ -19,9 +19,11 @@ import com.longtv.zappy.R;
 import com.longtv.zappy.base.BaseFragment;
 import com.longtv.zappy.common.adapter.DiscreAdapter;
 import com.longtv.zappy.common.view.HorizontalItemDecoration;
+import com.longtv.zappy.network.dto.LoginData;
 import com.longtv.zappy.network.dto.Profile;
 import com.longtv.zappy.ui.HomeActivity;
 import com.longtv.zappy.ui.home.HomeBoxFragment;
+import com.longtv.zappy.utils.PrefManager;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.InfiniteScrollAdapter;
 import com.yarolegovich.discretescrollview.transform.Pivot;
@@ -224,5 +226,10 @@ public class CreateprofileFragment extends BaseFragment<AccountPresenter, Accoun
         TimePickerDialog timePickerDialog = new TimePickerDialog(getBaseActivity(), onTimeSetListener, hr, min, true);
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
+    }
+
+    @Override
+    public void loginProfileSuccess(LoginData loginData) {
+
     }
 }

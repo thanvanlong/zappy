@@ -5,4 +5,5 @@ import com.longtv.zappy.network.dto.Profile;
 
 public interface AccountPresenter extends BasePresenter {
     void createProfile(Profile profile);
+    void loginProfile(int id);
 }

@@ -3,12 +3,13 @@ package com.longtv.zappy.ui.film;
 import com.longtv.zappy.base.BaseView;
 import com.longtv.zappy.network.dto.Content;
 import com.longtv.zappy.network.dto.ContentType;
+import com.longtv.zappy.network.dto.DataListDTO;
 
 import java.util.List;
 
 public interface HomeBoxFilmView extends BaseView<HomeBoxFilmPresenter> {
-    void onLoadGenreSuccess(List<ContentType> contentTypes);
+    void onLoadGenreSuccess(DataListDTO<ContentType> contentTypes);
     void onLoadGenreError(String message);
-    void onLoadMoviesSuccess(List<Content> contents);
+    void onLoadMoviesSuccess(DataListDTO<Content> data);
     void onLoadMoviesError(String message);
 }

@@ -18,7 +18,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void onPrepareLayout() {
         Uri data = getIntent().getData();
-        Log.e("anth", "onNewIntent: " + data);
         if (data != null && data.getQuery().contains("email") && data.getQueryParameter("accessToken") != null) {
             getPresenter().active(data.getQueryParameter("email"), data.getQueryParameter("accessToken"));
         }

@@ -2,6 +2,7 @@ package com.longtv.zappy.ui.film.mediaplayer;
 
 import android.content.res.Configuration;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -25,10 +26,15 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.longtv.zappy.R;
 import com.longtv.zappy.base.BaseFragment;
 import com.longtv.zappy.base.BasePresenter;
+import com.longtv.zappy.common.Constants;
 import com.longtv.zappy.common.adapter.ContentMediaAdapter;
+import com.longtv.zappy.common.dialog.InfoYesNoDialog;
 import com.longtv.zappy.common.view.MediaPlayerView;
+import com.longtv.zappy.network.dto.Content;
 import com.longtv.zappy.ui.HomeActivity;
+import com.longtv.zappy.ui.payment.PackagePaymentFragment;
 import com.longtv.zappy.utils.DeviceUtils;
+import com.longtv.zappy.utils.PrefManager;
 import com.longtv.zappy.utils.StringUtils;
 
 import java.util.HashMap;
@@ -63,6 +69,14 @@ public class MediaPlayerFragment extends BaseFragment implements Player.Listener
     LinearLayout containerSeek;
     @BindView(R.id.container_media)
     MediaPlayerView mediaPlayerView;
+    @BindView(R.id.tv_detail_content_title)
+    TextView tvTitle;
+    @BindView(R.id.item_film_description)
+    TextView tvDesc;
+    @BindView(R.id.item_film_categories)
+    TextView tvCategories;
+    @BindView(R.id.item_film_author)
+    TextView tvAuthors;
 
     SimpleExoPlayer player;
     private Handler handler;
@@ -73,13 +87,64 @@ public class MediaPlayerFragment extends BaseFragment implements Player.Listener
         return R.layout.fragment_media_player;
     }
 
+    private static MediaPlayerFragment mInstance;
+
+    public static MediaPlayerFragment getInstance() {
+        if (mInstance == null) {
+            mInstance = new MediaPlayerFragment();
+        }
+        return mInstance;
+    }
+
     @Override
     public void onPrepareLayout() {
-        initExoplayer("https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8");
+        mInstance = this;
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            Content content = ((Content) bundle.getSerializable(Constants.DATA));
+            Log.e("anth", "onPrepareLayout: " + StringUtils.getAuthors(content.getAuthors()));
+            if (content != null) {
+                if (content.isAccess()) {
+                    initExoplayer(content.getUrlStream());
+                } else {
+                    InfoYesNoDialog infoYesNoDialog = new InfoYesNoDialog();
+                    infoYesNoDialog.init(getViewContext(), "Nội dung yêu cầu trả phí để có thể trải nghiệm. Vui lòng mua nội dung để xem");
+                    infoYesNoDialog.setListener(new InfoYesNoDialog.ItemClickListener() {
+                        @Override
+                        public void btnYesClick() {
+                            if (content.getGolds() > 20) {
+                                //todo buy package
+                            } else {
+                                InfoYesNoDialog dialog = new InfoYesNoDialog();
+                                dialog.init(getViewContext(), "Số dư không đủ. Vui lòng mua thêm vàng để thanh toán");
+                                dialog.setListener(new InfoYesNoDialog.ItemClickListener() {
+                                    @Override
+                                    public void btnYesClick() {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString(Constants.TOOL_BAR, "Payment");
+                                        HomeActivity.getInstance().addOrReplaceFragment(new PackagePaymentFragment(), bundle, true, PackagePaymentFragment.class.getSimpleName());
+                                    }
 
-        rcvContent.setLayoutManager(new GridLayoutManager(getViewContext(), 2));
-        rcvContent.setAdapter(new ContentMediaAdapter(getViewContext()));
+                                    @Override
+                                    public void btnNoClick() {
 
+                                    }
+                                });
+                                dialog.show(HomeActivity.getInstance().getSupportFragmentManager(), "");
+                            }
+                        }
+
+                        @Override
+                        public void btnNoClick() {
+
+                        }
+                    });
+                }
+                rcvContent.setLayoutManager(new GridLayoutManager(getViewContext(), 2));
+                rcvContent.setAdapter(new ContentMediaAdapter(getViewContext(), content.getRelated()));
+                initView(content);
+            }
+        }
         HomeActivity.getInstance().hideBottomBar();
         HomeActivity.getInstance().toggleTopBar(View.GONE);
 
@@ -87,11 +152,18 @@ public class MediaPlayerFragment extends BaseFragment implements Player.Listener
 
     }
 
+    private void initView(Content content) {
+        tvTitle.setText(content.getName());
+        tvCategories.setText( "Thể loại: " + StringUtils.getCategory(content.getTypes()));
+        tvAuthors.setText("Đạo diễn: " + StringUtils.getAuthors(content.getAuthors()));
+        tvDesc.setText(content.getDesc());
+    }
+
     private void initExoplayer(String url) {
         MediaItem mediaItem = MediaItem.fromUri(url);
 
         Map<String, String> headersMap = new HashMap<>();
-//        headersMap.put("authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTcwMDQwNDk0NiwiZXhwIjoxNzAxMjY4OTQ2fQ.Cb2fC7C9o3-xbpS52XN_bYByGEkrZnpW7AonU9-dhIw");
+//        headersMap.put("authorization", "Bearer " + PrefManager.getAccessToken(getViewContext()));
 
         player = new SimpleExoPlayer.Builder(getViewContext())
                 .setMediaSourceFactory(new
@@ -115,7 +187,6 @@ public class MediaPlayerFragment extends BaseFragment implements Player.Listener
         runnable = new Runnable() {
             @Override
             public void run() {
-                Log.e("anth", "run: " + player.getBufferedPercentage() + " " + player.getPlayWhenReady());
                 if (player != null && player.getPlayWhenReady() && player.getPlaybackState() == Player.STATE_READY) {
                     sbProgress.setProgress((int) (player.getCurrentPosition() / 1000));
                     sbProgress.setSecondaryProgress((int) (player.getBufferedPosition() / 1000));

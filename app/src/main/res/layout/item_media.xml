@@ -6,17 +6,28 @@
     android:paddingVertical="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/iv_item_media"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="center"
-        android:foreground="?attr/selectableItemBackground"
-        android:clickable="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_height="wrap_content">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="@dimen/size_10"
+            android:layout_height="100dp">
+            <ImageView
+                android:id="@+id/iv_item_media"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
 
     <ImageView
+        android:id="@+id/iv_play"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:background="@drawable/bg_btn_play"

@@ -3,9 +3,12 @@ package com.longtv.zappy.network.dto;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Content implements Serializable {
+    @SerializedName("id")
+    private int id;
     @SerializedName("title")
     private String name;
     @SerializedName("thumbnail")
@@ -22,7 +25,15 @@ public class Content implements Serializable {
     private List<ContentType> types;
     @SerializedName("url")
     private String urlStream;
+    private List<Content> related;
 
+    public List<Content> getRelated() {
+        return related;
+    }
+
+    public void setRelated(List<Content> related) {
+        this.related = related;
+    }
 
     public String getName() {
         return name;
@@ -57,7 +68,7 @@ public class Content implements Serializable {
     }
 
     public List<Author> getAuthors() {
-        return authors;
+        return authors == null ? new ArrayList<>() : authors;
     }
 
     public void setAuthors(List<Author> authors) {
@@ -73,7 +84,7 @@ public class Content implements Serializable {
     }
 
     public List<ContentType> getTypes() {
-        return types;
+        return types == null ? new ArrayList<>() : types;
     }
 
     public void setTypes(List<ContentType> types) {
@@ -81,10 +92,18 @@ public class Content implements Serializable {
     }
 
     public String getUrlStream() {
-        return urlStream;
+        return "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8";
     }
 
     public void setUrlStream(String urlStream) {
         this.urlStream = urlStream;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
