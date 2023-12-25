@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.longtv.zappy.network.dto.Content;
+import com.longtv.zappy.utils.PrefManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class MediaPlayerController implements Player.Listener {
         MediaItem mediaItem = MediaItem.fromUri(url);
 
         Map<String, String> headersMap = new HashMap<>();
-//        headersMap.put("authorization", "Bearer " + PrefManager.getAccessToken(getViewContext()));
+        headersMap.put("authorization", "Bearer " + PrefManager.getAccessToken(context));
 
         player = new SimpleExoPlayer.Builder(context)
                 .setMediaSourceFactory(new

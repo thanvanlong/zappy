@@ -31,6 +31,7 @@ import com.longtv.zappy.R;
 import com.longtv.zappy.base.BaseFragment;
 import com.longtv.zappy.base.BasePresenter;
 import com.longtv.zappy.common.Constants;
+import com.longtv.zappy.common.view.HorizontalItemDecoration;
 import com.longtv.zappy.network.dto.Chapter;
 import com.longtv.zappy.network.dto.Content;
 import com.longtv.zappy.network.dto.ContentType;
@@ -60,6 +61,8 @@ public class StoryDetailFragment extends BaseFragment<HomeBoxStoryPresenter, Hom
     TextView tvTitle;
     @BindView(R.id.tv_author)
     TextView tvAuthor;
+    @BindView(R.id.tv_episodes)
+    TextView tvEpisodes;
     @BindView(R.id.rcv_content)
     RecyclerView rcvContent;
 
@@ -150,9 +153,8 @@ public class StoryDetailFragment extends BaseFragment<HomeBoxStoryPresenter, Hom
     @Override
     public void onLoadChapterSuccess(DataListDTO<Chapter> data) {
         rcvContent.setLayoutManager(new LinearLayoutManager(getViewContext(), LinearLayoutManager.VERTICAL, false));
-        Chapter chapter = new Chapter();
-        chapter.setName("Chapter 1");
-        data.getResults().add(chapter);
+        rcvContent.addItemDecoration(new HorizontalItemDecoration(10));
         rcvContent.setAdapter(new HomeBoxChapterAdapter(data.getResults()));
+        tvEpisodes.setText(data.getResults().size() + "");
     }
 }

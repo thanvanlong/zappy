@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.longtv.zappy.base.BaseActivity;
 import com.longtv.zappy.network.dto.ContentType;
 import com.longtv.zappy.network.dto.LoginData;
 import com.longtv.zappy.network.dto.Profile;
@@ -556,5 +557,19 @@ public class PrefManager {
         }
 
         return 0;
+    }
+
+    public static void clearUserData(Context viewContext) {
+        if (viewContext == null) {
+            return;
+        }
+        SharedPreferences preferences = getPreference(viewContext);
+        if (preferences != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
+            editor.putBoolean(IS_FIRST_START, false);
+            editor.apply();
+        }
     }
 }

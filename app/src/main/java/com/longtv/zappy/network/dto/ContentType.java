@@ -14,6 +14,16 @@ public class ContentType implements Serializable {
     private int id;
     @SerializedName("medias")
     private List<Content> contents;
+    @SerializedName("comics")
+    private List<Content> comics;
+
+    public List<Content> getComics() {
+        return comics;
+    }
+
+    public void setComics(List<Content> comics) {
+        this.comics = comics;
+    }
 
     public List<Content> getContents() {
         return contents;

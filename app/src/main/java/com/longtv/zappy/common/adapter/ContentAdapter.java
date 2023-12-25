@@ -45,6 +45,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ContentAdapter.ViewHolder holder, int position) {
         Content content = contents.get(position);
+        Log.e("anth", "onBindViewHolder: " + content.getId());
         ImageUtils.loadImageCorner(HomeActivity.getInstance(), holder.ivCoverImage, content.getCoverImage(), 18);
         holder.tvTitle.setText(content.getName());
 
@@ -61,7 +62,10 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return contents.size();
+        if (contents == null)
+            return 0;
+        else
+            return contents.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

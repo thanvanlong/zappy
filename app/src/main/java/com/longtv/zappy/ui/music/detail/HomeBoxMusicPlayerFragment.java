@@ -130,13 +130,12 @@ public class HomeBoxMusicPlayerFragment extends BaseFragment<HomeBoxMusicPresent
                 if (player != null) {
                     content = content.getRelated().get(0);
                     initView(content);
-                    controller.initExoplayer("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+                    controller.initExoplayer(content.getUrlStream());
                     player = controller.getPlayer();
                 }
             }
         });
         timeOnMusic = System.currentTimeMillis();
-        PrefManager.saveTimeOnMusic(getViewContext(), timeOnMusic);
     }
 
     @Override
@@ -183,14 +182,14 @@ public class HomeBoxMusicPlayerFragment extends BaseFragment<HomeBoxMusicPresent
             case Player.STATE_ENDED:
                 if (player != null && player.getRepeatMode() != Player.REPEAT_MODE_ONE) {
                     int random = (int) (Math.random() * content.getRelated().size());
-                    controller.initExoplayer("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3");
+                    controller.initExoplayer(content.getUrlStream());
                     player = controller.getPlayer();
                     content = content.getRelated().get(random);
                     initView(content);
                 } else if (player != null && player.getRepeatMode() != Player.REPEAT_MODE_ONE) {
                     content = content.getRelated().get(0);
                     initView(content);
-                    controller.initExoplayer("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+                    controller.initExoplayer(content.getUrlStream());
                     player = controller.getPlayer();
                 }
                 break;
@@ -371,7 +370,8 @@ public class HomeBoxMusicPlayerFragment extends BaseFragment<HomeBoxMusicPresent
         if (player != null) {
             player.setPlayWhenReady(false);
         }
-        PrefManager.saveTimeOnMusic(getViewContext(), System.currentTimeMillis() - timeOnMusic);
+        timeOnMusic = System.currentTimeMillis() - timeOnMusic;
+        PrefManager.saveTimeOnMusic(getViewContext(), timeOnMusic);
     }
 
     @Override
@@ -395,7 +395,7 @@ public class HomeBoxMusicPlayerFragment extends BaseFragment<HomeBoxMusicPresent
         initView(content);
 //        initExoplayer("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
         controller = new MediaPlayerController(getViewContext(), content, null);
-        controller.initExoplayer("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+        controller.initExoplayer(content.getUrlStream());
         player = controller.getPlayer();
         controller.setEventListener(new MediaPlayerController.EventListener() {
             @Override
@@ -407,7 +407,7 @@ public class HomeBoxMusicPlayerFragment extends BaseFragment<HomeBoxMusicPresent
             public void onNext() {
                 initView(content.getRelated().get(0));
                 getPresenter().getContentRelated(StringUtils.getContentTypesId(content.getRelated().get(0).getTypes()));
-                controller.initExoplayer("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+                controller.initExoplayer(content.getRelated().get(0).getUrlStream());
                 player = controller.getPlayer();
             }
         });

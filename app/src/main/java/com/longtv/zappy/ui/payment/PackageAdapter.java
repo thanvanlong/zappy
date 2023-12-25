@@ -26,6 +26,10 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
     private List<PackagePayment> paymentList;
     private int pos = 0;
 
+    public int getPos() {
+        return pos;
+    }
+
     public PackageAdapter(List<PackagePayment> paymentList) {
         this.paymentList = paymentList;
     }

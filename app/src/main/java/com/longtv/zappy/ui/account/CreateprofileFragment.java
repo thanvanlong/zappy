@@ -206,17 +206,17 @@ public class CreateprofileFragment extends BaseFragment<AccountPresenter, Accoun
             @Override
             public void onClick(View v) {
                 //get date time now calendar
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-                //create date from year, month, dayOfMonth
-                Date date = new Date(year, month, dayOfMonth);
-                //convert date to localdatetime for android 9
-                Log.e("anth", "onClick: " + year + " " + month + " " + dayOfMonth);
-                Profile profile = new Profile(edtNameProfile.getText().toString(), new Date(), hr * 3600L + min * 60L, PrefManager.getUserData(getViewContext()).getProfiles().size() + 1);
+                Calendar calendar = Calendar.getInstance();
 
-                btnSaveProfile.requestFocus();
+                // Trừ 2 năm
+                calendar.add(Calendar.YEAR, - age);
+
+                // Lấy ngày sau khi trừ 2 năm
+                Date date = calendar.getTime();
+                //convert date to localdatetime for android 9
+                Profile profile = new Profile(edtNameProfile.getText().toString(), date, hr * 3600L + min * 60L, PrefManager.getUserData(getViewContext()).getProfiles().size() + 1);
+
+//                btnSaveProfile.requestFocus();
                 getPresenter().saveProfile(profile);
             }
         });

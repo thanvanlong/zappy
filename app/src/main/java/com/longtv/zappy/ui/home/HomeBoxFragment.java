@@ -2,6 +2,9 @@ package com.longtv.zappy.ui.home;
 
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.viewpager2.widget.ViewPager2;
@@ -14,12 +17,18 @@ import com.longtv.zappy.base.BasePresenter;
 import com.longtv.zappy.common.Constants;
 import com.longtv.zappy.common.adapter.ContentMediaPagerAdapter;
 import com.longtv.zappy.common.adapter.ContentBannerAdapter;
+import com.longtv.zappy.network.dto.Content;
+import com.longtv.zappy.network.dto.DataListDTO;
 import com.longtv.zappy.ui.HomeActivity;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import me.relex.circleindicator.CircleIndicator3;
 
-public class HomeBoxFragment extends BaseFragment {
+public class HomeBoxFragment extends BaseFragment<HomeBoxPresenter, HomeActivity> implements HomeBoxView {
     @BindView(R.id.vp_news)
     ViewPager2 vpNews;
     @BindView(R.id.indicator)
@@ -28,9 +37,14 @@ public class HomeBoxFragment extends BaseFragment {
     TabLayout tbCategory;
     @BindView(R.id.vp_contents)
     ViewPager2 vpContents;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.container_main)
+    LinearLayout containerMain;
+    int count = 0;
     Handler handler;
     Runnable runnable;
-
+    private Map<String, DataListDTO<Content>> dataMap = new HashMap<>();
     @Override
     public int getLayoutId() {
         return R.layout.fragment_home;
@@ -69,12 +83,24 @@ public class HomeBoxFragment extends BaseFragment {
 
         handler.postDelayed(runnable, 5000);
 
+        if (HomeActivity.getInstance().getCacheHome() == null) {
+            getPresenter().getFilms();
+            getPresenter().getMusics();
+            getPresenter().getStories();
+            progressBar.setVisibility(View.VISIBLE);
+            containerMain.setVisibility(View.GONE);
+        } else {
+            dataMap = HomeActivity.getInstance().getCacheHome();
+            ContentMediaPagerAdapter contentMediaPagerAdapter = new ContentMediaPagerAdapter(getViewContext());
+            vpContents.setAdapter(contentMediaPagerAdapter);
+            contentMediaPagerAdapter.setDataListDTOMap(dataMap);
+            new TabLayoutMediator(tbCategory, vpContents,
+                    (tab, position) -> tab.setText(Constants.category[position])
+            ).attach();
+            containerMain.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+        }
 
-        ContentMediaPagerAdapter contentMediaPagerAdapter = new ContentMediaPagerAdapter(getViewContext());
-        vpContents.setAdapter(contentMediaPagerAdapter);
-        new TabLayoutMediator(tbCategory, vpContents,
-                (tab, position) -> tab.setText(Constants.category[position])
-        ).attach();
 
     }
 
@@ -93,7 +119,60 @@ public class HomeBoxFragment extends BaseFragment {
     }
 
     @Override
-    public BasePresenter onCreatePresenter() {
-        return null;
+    public HomeBoxPresenter onCreatePresenter() {
+        return new HomeBoxPresenterImpl(this);
+    }
+
+    @Override
+    public void onLoadMusicsSuccess(DataListDTO<Content> data) {
+        count ++;
+        dataMap.put("MUSIC",data);
+        if (count == 3) {
+            HomeActivity.getInstance().setCacheHome(dataMap);
+            ContentMediaPagerAdapter contentMediaPagerAdapter = new ContentMediaPagerAdapter(getViewContext());
+            contentMediaPagerAdapter.setDataListDTOMap(dataMap);
+            vpContents.setAdapter(contentMediaPagerAdapter);
+            new TabLayoutMediator(tbCategory, vpContents,
+                    (tab, position) -> tab.setText(Constants.category[position])
+            ).attach();
+            containerMain.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+        }
+        Log.e("anth", "onLoadMusicsSuccess: " + count);
+    }
+
+    @Override
+    public void onLoadFilmsSuccess(DataListDTO<Content> data) {
+        count ++;
+        dataMap.put("VOD",data);
+        if (count == 3) {
+            HomeActivity.getInstance().setCacheHome(dataMap);
+            ContentMediaPagerAdapter contentMediaPagerAdapter = new ContentMediaPagerAdapter(getViewContext());
+            vpContents.setAdapter(contentMediaPagerAdapter);
+            contentMediaPagerAdapter.setDataListDTOMap(dataMap);
+            new TabLayoutMediator(tbCategory, vpContents,
+                    (tab, position) -> tab.setText(Constants.category[position])
+            ).attach();
+            containerMain.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onLoadStoriesSuccess(DataListDTO<Content> data) {
+        count ++;
+        dataMap.put("STORY",data);
+        Log.e("anth", "onLoadStoriesSuccess: " + count);
+        if (count == 3) {
+            HomeActivity.getInstance().setCacheHome(dataMap);
+            ContentMediaPagerAdapter contentMediaPagerAdapter = new ContentMediaPagerAdapter(getViewContext());
+            vpContents.setAdapter(contentMediaPagerAdapter);
+            contentMediaPagerAdapter.setDataListDTOMap(dataMap);
+            new TabLayoutMediator(tbCategory, vpContents,
+                    (tab, position) -> tab.setText(Constants.category[position])
+            ).attach();
+            containerMain.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }

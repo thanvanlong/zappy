@@ -123,7 +123,6 @@ public class ManageAccountFragment extends BaseFragment<AccountPresenter, HomeAc
     public void loginProfileSuccess(LoginData loginData) {
         PrefManager.setProfileId(getViewContext(), loginData.getId());
         PrefManager.setProfileToken(getViewContext(), loginData.getAccessToken());
-        HomeActivity.getInstance().setupBottomNav(R.id.navigation_home);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -132,6 +131,7 @@ public class ManageAccountFragment extends BaseFragment<AccountPresenter, HomeAc
                 HomeActivity.getInstance().toggleSetting(1);
                 Profile profile = PrefManager.getProfileData(getViewContext()).stream().filter(p -> p.getId() == loginData.getId()).findFirst().get();
                 HomeActivity.getInstance().countDown(profile.getTimeOnScreen());
+                HomeActivity.getInstance().setupBottomNav(R.id.navigation_home);
                 if (data != null && !data.isEmpty() && data.contains("type")) {
                     Uri uri = Uri.parse(data);
                     String type = uri.getQueryParameter("type");
@@ -159,6 +159,7 @@ public class ManageAccountFragment extends BaseFragment<AccountPresenter, HomeAc
         Map<Integer, Profile> map = new HashMap<>();
         if (profile != null && profile.size() > 0) {
             for (Profile p : profile) {
+//                if ()
                 map.put(p.getOrder(), p);
             }
 
@@ -173,7 +174,7 @@ public class ManageAccountFragment extends BaseFragment<AccountPresenter, HomeAc
             if (map.get(2) != null) {
                 tvProfile2.setText(map.get(2).getNickname());
                 ctnProfile2.setVisibility(View.VISIBLE);
-                this.map.put(ctnProfile2.getId(), map.get(2));
+                this.map.put(R.id.ctn_profile_2_2, map.get(2));
             } else {
                 ctnProfile2.setVisibility(View.GONE);
                 ivAdd2.setVisibility(View.VISIBLE);

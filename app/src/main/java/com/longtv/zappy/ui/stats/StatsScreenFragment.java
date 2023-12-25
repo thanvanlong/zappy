@@ -90,6 +90,7 @@ public class StatsScreenFragment extends BaseFragment {
         Log.e("anth", "onPrepareLayout: time " + PrefManager.getTimeOnFilm(getViewContext()) + " " + PrefManager.getTimeOnMusic(getViewContext()));
         tvTimeOnVideo.setText(StringUtils.covertSecondToHMS(PrefManager.getTimeOnFilm(getViewContext()) / 1000));
         tvTimeOnMusic.setText(StringUtils.covertSecondToHMS(PrefManager.getTimeOnMusic(getViewContext()) / 1000));
+        tvTimeOnStory.setText(StringUtils.covertSecondToHMS(PrefManager.getTimeOnBook(getViewContext()) / 1000));
         ivNextDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

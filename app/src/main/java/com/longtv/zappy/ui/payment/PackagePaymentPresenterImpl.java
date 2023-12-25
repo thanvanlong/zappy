@@ -11,6 +11,8 @@ import com.longtv.zappy.common.dialog.SuccessDialog;
 import com.longtv.zappy.network.ServiceBuilder;
 import com.longtv.zappy.network.dto.DataListDTO;
 import com.longtv.zappy.network.dto.PackagePayment;
+import com.longtv.zappy.ui.HomeActivity;
+import com.longtv.zappy.utils.DialogUtils;
 import com.longtv.zappy.utils.PrefManager;
 
 public class PackagePaymentPresenterImpl extends BasePresenterImpl<PackagePaymentView> implements PackagePaymentPresenter {
@@ -36,14 +38,16 @@ public class PackagePaymentPresenterImpl extends BasePresenterImpl<PackagePaymen
 
     @Override
     public void doPayment(JsonObject jsonObject) {
+        DialogUtils.showProgressDialog(getViewContext());
         ServiceBuilder.getServicePayment().doPayment(jsonObject).enqueue(new BaseCallback<Object>() {
             @Override
             public void onError(String errorCode, String errorMessage) {
-
+                DialogUtils.dismissProgressDialog(getViewContext());
             }
 
             @Override
             public void onResponse(Object data) {
+                DialogUtils.dismissProgressDialog(getViewContext());
                 if (data instanceof String) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse((String) data));
@@ -59,6 +63,7 @@ public class PackagePaymentPresenterImpl extends BasePresenterImpl<PackagePaymen
 
     @Override
     public void verifyPayment(JsonObject jsonObject) {
+        DialogUtils.showProgressDialog(getViewContext());
         ServiceBuilder.getServicePayment().verifyPayment(jsonObject).enqueue(new BaseCallback<Integer>() {
             @Override
             public void onError(String errorCode, String errorMessage) {
@@ -67,9 +72,11 @@ public class PackagePaymentPresenterImpl extends BasePresenterImpl<PackagePaymen
 
             @Override
             public void onResponse(Integer data) {
+                DialogUtils.dismissProgressDialog(getViewContext());
                 SuccessDialog successDialog = new SuccessDialog();
                 successDialog.init(getViewContext(), "Thanh toán thành công");
-                PrefManager.saveGold(getViewContext(), PrefManager.getGold(getViewContext()) + data);
+                HomeActivity.getInstance().setGold(data);
+                PrefManager.saveGold(getViewContext(), data);
                 successDialog.setListener(new SuccessDialog.ItemClickListener() {
                     @Override
                     public void btnYesClick() {

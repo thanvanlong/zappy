@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.longtv.zappy.R;
 import com.longtv.zappy.common.Constants;
 import com.longtv.zappy.network.dto.Chapter;
@@ -43,13 +44,18 @@ public class HomeBoxChapterAdapter extends RecyclerView.Adapter<HomeBoxChapterAd
     @Override
     public void onBindViewHolder(@NonNull HomeBoxChapterAdapter.ViewHolder holder, int position) {
         Chapter content = mContents.get(position);
-        holder.tvTitle.setText(content.getName());
+        if (!content.getName().isEmpty()) {
+            holder.tvTitle.setText(content.getName());
+        }
+        holder.tvAuthor.setText("Tập " + content.getChap());
+        holder.tvPublishedDate.setText(content.getCreatedAt());
 
         holder.mRootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString(Constants.TOOL_BAR, "Media");
+                bundle.putString(Constants.DATA, new Gson().toJson(content));
                 HomeActivity.getInstance().addOrReplaceFragment(new ReadingStoryFragment(), bundle, true, ReadingStoryFragment.class.getSimpleName());
             }
         });
@@ -65,12 +71,12 @@ public class HomeBoxChapterAdapter extends RecyclerView.Adapter<HomeBoxChapterAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.iv_cover_image)
-        ImageView ivCoverImage;
         @BindView(R.id.tv_title)
         TextView tvTitle;
         @BindView(R.id.tv_author)
         TextView tvAuthor;
+        @BindView(R.id.tv_published_date)
+        TextView tvPublishedDate;
 
         View mRootView;
 

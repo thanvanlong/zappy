@@ -43,6 +43,8 @@ import com.longtv.zappy.common.dialog.InfoYesNoDialog;
 import com.longtv.zappy.common.dialog.ScreenPassDialog;
 import com.longtv.zappy.common.dialog.SuccessDialog;
 import com.longtv.zappy.network.dto.Content;
+import com.longtv.zappy.network.dto.ContentType;
+import com.longtv.zappy.network.dto.DataListDTO;
 import com.longtv.zappy.network.dto.Profile;
 import com.longtv.zappy.ui.account.CreateprofileFragment;
 import com.longtv.zappy.ui.account.ManageAccountFragment;
@@ -73,6 +75,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
@@ -104,6 +107,42 @@ public class HomeActivity extends BaseActivity {
     RelativeLayout layoutCoin;
     private Stack<String> titles = new Stack<>();
     private int profileId;
+    private DataListDTO<ContentType> cacheFilm;
+    private DataListDTO<ContentType> cacheStory;
+    private DataListDTO<Content> cacheMusic;
+    private Map<String, DataListDTO<Content>> cacheHome;
+
+    public DataListDTO<ContentType> getCacheFilm() {
+        return cacheFilm;
+    }
+
+    public void setCacheFilm(DataListDTO<ContentType> cacheFilm) {
+        this.cacheFilm = cacheFilm;
+    }
+
+    public DataListDTO<ContentType> getCacheStory() {
+        return cacheStory;
+    }
+
+    public void setCacheStory(DataListDTO<ContentType> cacheStory) {
+        this.cacheStory = cacheStory;
+    }
+
+    public DataListDTO<Content> getCacheMusic() {
+        return cacheMusic;
+    }
+
+    public void setCacheMusic(DataListDTO<Content> cacheMusic) {
+        this.cacheMusic = cacheMusic;
+    }
+
+    public Map<String, DataListDTO<Content>> getCacheHome() {
+        return cacheHome;
+    }
+
+    public void setCacheHome(Map<String, DataListDTO<Content>> cacheHome) {
+        this.cacheHome = cacheHome;
+    }
 
     public int getProfileId() {
         return profileId;
@@ -388,7 +427,9 @@ public class HomeActivity extends BaseActivity {
 //        }
         super.onBackPressed();
         titles.pop();
-        tvTitle.setText(titles.peek());
+        if (titles.size() > 0) {
+            tvTitle.setText(titles.peek());
+        }
         Fragment topFragment = manager.findFragmentById(R.id.container_fragment);
 
 
@@ -437,18 +478,21 @@ public class HomeActivity extends BaseActivity {
             if (data.getQueryParameter("type").equals("story")) {
                 Bundle str = new Bundle();
                 str.putString(Constants.TOOL_BAR, "Story");
-                addOrReplaceFragment(new HomeBoxStoryFragment(), str, false, HomeBoxStoryFragment.class.getSimpleName());
+                addOrReplaceFragment(new HomeBoxStoryFragment(), str, true, HomeBoxStoryFragment.class.getSimpleName());
             } else if (data.getQueryParameter("type").equals("music")) {
                 Bundle music = new Bundle();
                 music.putString(Constants.TOOL_BAR, "Music");
-                addOrReplaceFragment(new HomeBoxMusicFragment(), music, false, HomeBoxMusicFragment.class.getSimpleName());
+                Content content = new Content();
+                content.setId(Integer.parseInt(data.getQueryParameter("id")));
+                music.putSerializable(Constants.DATA, content);
+                addOrReplaceFragment(new HomeBoxMusicPlayerFragment(), music, true, HomeBoxMusicFragment.class.getSimpleName());
             } else if (data.getQueryParameter("type").equals("film")) {
                 Bundle vod = new Bundle();
                 vod.putString(Constants.TOOL_BAR, "Media");
                 Content content = new Content();
                 content.setId(Integer.parseInt(data.getQueryParameter("id")));
                 vod.putSerializable(Constants.DATA, content);
-                addOrReplaceFragment(new MediaPlayerFragment(), vod,  false, MediaPlayerFragment.class.getSimpleName());
+                addOrReplaceFragment(new MediaPlayerFragment(), vod,  true, MediaPlayerFragment.class.getSimpleName());
             }
         }
     }

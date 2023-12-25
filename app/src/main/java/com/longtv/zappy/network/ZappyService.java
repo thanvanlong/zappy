@@ -87,8 +87,12 @@ public interface ZappyService {
     @POST("profile")
     Call<ResponseDTO<Profile>> saveProfile(@Body Profile profile);
 
-    @GET("movie")
-    Call<ResponseDTO<DataListDTO<Content>>> getBannerMovie(@Query("sor") JsonObject object);
+    @GET("movie?sortBy=desc:views")
+    Call<ResponseDTO<DataListDTO<Content>>> getBannerMovie();
+    @GET("comics?sortBy=desc:views")
+    Call<ResponseDTO<DataListDTO<Content>>> getBannerStory();
+    @GET("music?sortBy=desc:views")
+    Call<ResponseDTO<DataListDTO<Content>>> getBannerMusic();
     @GET("chapter/{id}")
     Call<ResponseDTO<DataListDTO<Chapter>>> getChapter(@Path("id") String id);
 }

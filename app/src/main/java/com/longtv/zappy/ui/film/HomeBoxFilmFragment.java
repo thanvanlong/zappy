@@ -145,7 +145,7 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
             }
         });
 
-        loadData();
+        loadData(false);
     }
 
     @OnTextChanged(R.id.edt_search)
@@ -194,19 +194,29 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
         return new HomeBoxFilmPresenterImpl(this);
     }
 
-    private void loadData() {
-        getPresenter().getGenre();
+    private void loadData(boolean isRefresh) {
+        if (isRefresh) {
+            getPresenter().getGenre();
+            return;
+        }
+        if (HomeActivity.getInstance() != null && HomeActivity.getInstance().getCacheFilm() != null) {
+            onLoadGenreSuccess(HomeActivity.getInstance().getCacheFilm());
+        } else {
+            getPresenter().getGenre();
+        }
     }
     @Override
     public void onRefresh() {
-        loadData();
-        Log.e("anth", "onRefresh: " + swipeRefreshLayout.isRefreshing());
+        loadData(true);
     }
 
     @Override
     public void onLoadGenreSuccess(DataListDTO<ContentType> contentTypes) {
-        JsonObject filter = new JsonObject();
-        filter.addProperty("genres.id", contentTypes.getResults().get(0).getId() + "");
+        shimmerFrameLayout.setVisibility(View.GONE);
+        if (contentTypes.getResults().isEmpty()) {
+            return;
+        }
+        HomeActivity.getInstance().setCacheFilm(contentTypes);
         this.contentTypes.addAll(contentTypes.getResults());
         swipeRefreshLayout.setRefreshing(false);
         for (ContentType contentType:
@@ -216,7 +226,7 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
         currentType = contentTypes.getResults().get(0);
         homeBoxFilmAdapter = new HomeBoxFilmAdapter(getViewContext(), data);
         vpContents.setAdapter(homeBoxFilmAdapter);
-        shimmerFrameLayout.setVisibility(View.GONE);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

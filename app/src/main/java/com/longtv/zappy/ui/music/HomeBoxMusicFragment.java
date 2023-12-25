@@ -36,7 +36,14 @@ public class HomeBoxMusicFragment extends BaseFragment<HomeBoxMusicPresenter, Ho
 
     @Override
     public void onPrepareLayout() {
-        loadData();
+        if (HomeActivity.getInstance().getCacheMusic() != null) {
+            onLoadMusicsSuccess(HomeActivity.getInstance().getCacheMusic());
+            shimmerView.setVisibility(View.GONE);
+        } else {
+            shimmerView.setVisibility(View.VISIBLE);
+            shimmerView.startShimmer();
+            loadData();
+        }
         rcvContent.setLayoutManager(new LinearLayoutManager(getViewContext(), LinearLayoutManager.VERTICAL, false));
         rcvContent.setAdapter(new HomeBoxMusicAdapter());
         rcvContent.addItemDecoration(new HorizontalItemDecoration(40));

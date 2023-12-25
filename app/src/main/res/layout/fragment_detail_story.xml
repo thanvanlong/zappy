@@ -51,7 +51,7 @@
                             android:layout_height="wrap_content"
                             android:text="Đơn giản"
                             android:textColor="@color/black"
-                            android:textSize="25sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -228,6 +228,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size_20"
+                    android:paddingLeft="@dimen/size_10"
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/tv_title_overview"
@@ -236,7 +237,7 @@
                         android:text="Overview"
                         android:textColor="@color/black"
                         android:textSize="15sp"
-                        android:fontFamily="@font/inter_semibold"
+                        android:fontFamily="@font/inter_medium"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -254,9 +255,18 @@
 
 
                 </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Danh sách tập"
+                    android:fontFamily="@font/inter_medium"
+                    android:paddingHorizontal="@dimen/size_10"
+                    android:layout_marginTop="@dimen/size_20"
+                    android:textColor="@color/black"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcv_content"
                     android:layout_width="match_parent"
+                    android:paddingTop="@dimen/size_20"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

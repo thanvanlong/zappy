@@ -36,7 +36,14 @@ public class HomeBoxStoryFragment extends BaseFragment<HomeBoxStoryPresenter, Ho
 
     @Override
     public void onPrepareLayout() {
-        getPresenter().getStories();
+        if (HomeActivity.getInstance().getCacheStory() != null) {
+            onLoadGenreSuccess(HomeActivity.getInstance().getCacheStory());
+            shimmerView.setVisibility(View.GONE);
+        } else {
+            shimmerView.setVisibility(View.VISIBLE);
+            shimmerView.startShimmer();
+            getPresenter().getStories();
+        }
     }
 
     @Override
@@ -52,6 +59,7 @@ public class HomeBoxStoryFragment extends BaseFragment<HomeBoxStoryPresenter, Ho
         mIndicator.setViewPager(vpBanner);
         mRcvContent.setLayoutManager(new LinearLayoutManager(getViewContext(), LinearLayoutManager.VERTICAL, false));
         mRcvContent.setAdapter(new HomeBoxStoryAdapter(data.getResults()));
+        HomeActivity.getInstance().setCacheStory(data);
     }
 
     @Override

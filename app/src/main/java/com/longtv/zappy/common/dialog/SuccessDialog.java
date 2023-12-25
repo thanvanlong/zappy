@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -46,7 +47,14 @@ public class SuccessDialog extends DialogFragment {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         getDialog().setCanceledOnTouchOutside(false);
-        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        WindowManager.LayoutParams p = getDialog().getWindow().getAttributes();
+        p.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        p.height = ViewGroup.LayoutParams.MATCH_PARENT;
+//        p.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE;
+        p.x = 200;
+        p.y = 400;
+        getDialog().getWindow().setAttributes(p);
         return inflater.inflate(R.layout.fragment_success_dialog, container, false);
     }
     @Override

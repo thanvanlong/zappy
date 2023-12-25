@@ -29,6 +29,16 @@ public class Content implements Serializable {
     private int views;
     @SerializedName("isLike")
     private boolean isLike;
+    @SerializedName("chaptersCount")
+    private int chaptersCount;
+
+    public int getChaptersCount() {
+        return chaptersCount;
+    }
+
+    public void setChaptersCount(int chaptersCount) {
+        this.chaptersCount = chaptersCount;
+    }
 
     public boolean isLike() {
         return isLike;
@@ -113,7 +123,7 @@ public class Content implements Serializable {
     }
 
     public String getUrlStream() {
-        return "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8";
+        return urlStream == null ? "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8" : urlStream;
     }
 
     public void setUrlStream(String urlStream) {

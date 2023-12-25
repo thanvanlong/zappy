@@ -20,7 +20,10 @@ import com.longtv.zappy.common.dialog.SuccessDialog;
 import com.longtv.zappy.network.dto.Content;
 import com.longtv.zappy.ui.HomeActivity;
 import com.longtv.zappy.ui.film.mediaplayer.MediaPlayerFragment;
+import com.longtv.zappy.ui.music.detail.HomeBoxMusicPlayerFragment;
 import com.longtv.zappy.ui.payment.PackagePaymentFragment;
+import com.longtv.zappy.ui.story.HomeBoxStoryFragment;
+import com.longtv.zappy.ui.story.StoryDetailFragment;
 import com.longtv.zappy.utils.ImageUtils;
 
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ import butterknife.ButterKnife;
 
 public class ContentMediaAdapter extends RecyclerView.Adapter<ContentMediaAdapter.ViewHolder> {
     private Context context;
+    private String type;
     private List<Content> mContents = new ArrayList<>();
 
     public ContentMediaAdapter(Context context) {
@@ -41,6 +45,13 @@ public class ContentMediaAdapter extends RecyclerView.Adapter<ContentMediaAdapte
     public ContentMediaAdapter(Context context, List<Content> mContents) {
         this.context = context;
         this.mContents = mContents;
+    }
+
+    public ContentMediaAdapter(Context context, String type, List<Content> mContents) {
+        this.context = context;
+        this.type = type;
+        this.mContents = mContents;
+        Log.e("anth", "ContentMediaAdapter: " + type );
     }
 
     @NonNull
@@ -67,11 +78,30 @@ public class ContentMediaAdapter extends RecyclerView.Adapter<ContentMediaAdapte
                 bundle.putString(Constants.TOOL_BAR, "Media");
                 bundle.putSerializable(Constants.DATA, content);
                 Fragment topFragment = HomeActivity.getInstance().getSupportFragmentManager().findFragmentById(R.id.container_fragment);
-                if (topFragment instanceof MediaPlayerFragment) {
-                    MediaPlayerFragment.getInstance().setArguments(bundle);
-                    MediaPlayerFragment.getInstance().onPrepareLayout();
+                if (type == null) {
+                    if (topFragment instanceof MediaPlayerFragment) {
+                        MediaPlayerFragment.getInstance().setArguments(bundle);
+                        MediaPlayerFragment.getInstance().onPrepareLayout();
+                    } else {
+                        HomeActivity.getInstance().addOrReplaceFragment(new MediaPlayerFragment(), bundle, true, MediaPlayerFragment.class.getSimpleName());
+                    }
                 } else {
-                    HomeActivity.getInstance().addOrReplaceFragment(new MediaPlayerFragment(), bundle, true, MediaPlayerFragment.class.getSimpleName());
+                    switch (type) {
+                        case "VOD":
+                            if (topFragment instanceof MediaPlayerFragment) {
+                                MediaPlayerFragment.getInstance().setArguments(bundle);
+                                MediaPlayerFragment.getInstance().onPrepareLayout();
+                            } else {
+                                HomeActivity.getInstance().addOrReplaceFragment(new MediaPlayerFragment(), bundle, true, MediaPlayerFragment.class.getSimpleName());
+                            }
+                            break;
+                        case "MUSIC":
+                            HomeActivity.getInstance().addOrReplaceFragment(new HomeBoxMusicPlayerFragment(), bundle, true, HomeBoxMusicPlayerFragment.class.getSimpleName());
+                            break;
+                        case "STORY":
+                            HomeActivity.getInstance().addOrReplaceFragment(new StoryDetailFragment(), bundle, true, HomeBoxStoryFragment.class.getSimpleName());
+                            break;
+                    }
                 }
             }
         });

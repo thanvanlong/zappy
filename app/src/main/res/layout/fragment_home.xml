@@ -69,8 +69,10 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/size_10">
         <LinearLayout
+            android:id="@+id/container_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="vertical">
             <LinearLayout
                 android:id="@+id/container_news"
@@ -150,5 +152,12 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_20"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

@@ -1002,6 +1002,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ctn_logout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_time_picker"
@@ -1010,6 +1011,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_marginTop="@dimen/size_20"
                         android:gravity="center_vertical"
+                        android:foreground="?attr/selectableItemBackground"
                         android:padding="@dimen/size_10">
                         <ImageView
                             android:layout_width="30dp"

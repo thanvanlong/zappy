@@ -1,5 +1,6 @@
 package com.longtv.zappy.ui.story;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ public class HomeBoxStoryAdapter extends RecyclerView.Adapter<HomeBoxStoryAdapte
         ContentType contentType = contentTypes.get(position);
         holder.tvTitle.setText(contentType.getName());
         holder.rcvContent.setLayoutManager(new LinearLayoutManager(HomeActivity.getInstance(),  LinearLayoutManager.HORIZONTAL, false));
-        ContentAdapter contentAdapter = new ContentAdapter(contentType.getContents());
+        ContentAdapter contentAdapter = new ContentAdapter(contentType.getComics());
         holder.rcvContent.setAdapter(contentAdapter);
         holder.rcvContent.addItemDecoration(new HorizontalItemDecoration(30));
     }
