@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "772611450064",
+    "project_id": "upload-doan",
+    "storage_bucket": "upload-doan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772611450064:android:e7ebb1008e57f176a3ead5",
+        "android_client_info": {
+          "package_name": "com.longtv.firebasenotification"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwMH3dtklRKqTNcO7fZ7A9mxfto1NfTJU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772611450064:android:2e6dc97a416631f8a3ead5",
+        "android_client_info": {
+          "package_name": "com.longtv.zappy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwMH3dtklRKqTNcO7fZ7A9mxfto1NfTJU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
