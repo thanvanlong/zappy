@@ -5,6 +5,7 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.MarginPageTransformer;
 
+import com.google.gson.Gson;
 import com.longtv.zappy.R;
 import com.longtv.zappy.base.BaseFragment;
 import com.longtv.zappy.common.adapter.DiscreAdapter;
@@ -31,6 +33,8 @@ import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 
@@ -63,6 +67,8 @@ public class CreateprofileFragment extends BaseFragment<AccountPresenter, Accoun
     protected TextView tvHr;
     @BindView(R.id.tv_min)
     protected TextView tvMin;
+    @BindView(R.id.edt_name_profile)
+    EditText edtNameProfile;
 
     private int hr, min;
     private int age;
@@ -199,16 +205,19 @@ public class CreateprofileFragment extends BaseFragment<AccountPresenter, Accoun
         btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Profile profile = new Profile();
-                profile.setNickname("");
-                profile.setTimeOnScreen(hr * 3600L + min * 60L);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    profile.setDob(LocalDateTime.now().minus(age, ChronoUnit.YEARS));
-                }
+                //get date time now calendar
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+                //create date from year, month, dayOfMonth
+                Date date = new Date(year, month, dayOfMonth);
+                //convert date to localdatetime for android 9
+                Log.e("anth", "onClick: " + year + " " + month + " " + dayOfMonth);
+                Profile profile = new Profile(edtNameProfile.getText().toString(), new Date(), hr * 3600L + min * 60L, PrefManager.getUserData(getViewContext()).getProfiles().size() + 1);
 
                 btnSaveProfile.requestFocus();
-                HomeActivity.getInstance().addFragment(R.id.container_fragment, new HomeBoxFragment(), false, HomeBoxFragment.class.getSimpleName());
-//                getPresenter().createProfile();
+                getPresenter().saveProfile(profile);
             }
         });
     }
@@ -230,6 +239,21 @@ public class CreateprofileFragment extends BaseFragment<AccountPresenter, Accoun
 
     @Override
     public void loginProfileSuccess(LoginData loginData) {
+
+    }
+
+    @Override
+    public void getMeSuccess(LoginData loginData) {
+
+    }
+
+    @Override
+    public void saveProfileSuccess(Profile profile) {
+        LoginData loginData = PrefManager.getUserData(getViewContext());
+        loginData.getProfiles().add(profile);
+        PrefManager.saveUserData(getViewContext(), new Gson().toJson(loginData));
+        PrefManager.saveProfileData(getViewContext(), loginData.getProfiles());
+        HomeActivity.getInstance().setupBottomNav(R.id.navigation_home);
 
     }
 }

@@ -1,8 +1,13 @@
 package com.longtv.zappy.ui.stats;
 
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
@@ -28,9 +33,18 @@ import com.longtv.zappy.R;
 import com.longtv.zappy.base.BaseFragment;
 import com.longtv.zappy.base.BasePresenter;
 import com.longtv.zappy.ui.HomeActivity;
+import com.longtv.zappy.utils.PrefManager;
+import com.longtv.zappy.utils.StringUtils;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,6 +52,28 @@ import butterknife.OnClick;
 public class StatsScreenFragment extends BaseFragment {
     @BindView(R.id.barChart)
     BarChart chart;
+    @BindView(R.id.iv_next_day)
+    ImageView ivNextDay;
+    @BindView(R.id.tv_time)
+    TextView tvTime;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
+    @BindView(R.id.tv_date_picker)
+    TextView tvDatePicker;
+    @BindView(R.id.iv_prev_day)
+    ImageView ivPrevDay;
+    @BindView(R.id.tv_time_on)
+    TextView tvTimeOn;
+    @BindView(R.id.tv_time_on_music)
+    TextView tvTimeOnMusic;
+    @BindView(R.id.tv_time_on_video)
+    TextView tvTimeOnVideo;
+    @BindView(R.id.tv_time_on_story)
+    TextView tvTimeOnStory;
+
+
+    private Map<Integer, Long> map = new HashMap<>();
+    private int currentDay = 7;
     @Override
     public int getLayoutId() {
         return R.layout.fragment_stats_screen;
@@ -48,22 +84,49 @@ public class StatsScreenFragment extends BaseFragment {
         HomeActivity.getInstance().hideBottomBar();
         HomeActivity.getInstance().toggleCoin(View.GONE);
         HomeActivity.getInstance().handleBtnBack(true);
-        setupBarChart(chart);
-        List<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(1, 50));
-        entries.add(new BarEntry(2, 80));
-        entries.add(new BarEntry(3, 60));
-        entries.add(new BarEntry(4, 30));
-        entries.add(new BarEntry(5, 30));
-        entries.add(new BarEntry(6, 30));
-        entries.add(new BarEntry(7, 30));
+        trackAppUsage(getViewContext());
+        ivNextDay.setAlpha(0.5f);
+        ivNextDay.setEnabled(false);
+        Log.e("anth", "onPrepareLayout: time " + PrefManager.getTimeOnFilm(getViewContext()) + " " + PrefManager.getTimeOnMusic(getViewContext()));
+        tvTimeOnVideo.setText(StringUtils.covertSecondToHMS(PrefManager.getTimeOnFilm(getViewContext()) / 1000));
+        tvTimeOnMusic.setText(StringUtils.covertSecondToHMS(PrefManager.getTimeOnMusic(getViewContext()) / 1000));
+        ivNextDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentDay < 7) {
+                    currentDay ++;
+                    chart.highlightValue(currentDay, 0);
+                    tvTime.setText(StringUtils.convertMillisecondToHMS(map.get(currentDay)));
+                    Calendar calendar1 = Calendar.getInstance();
+                    calendar1.add(Calendar.DAY_OF_MONTH, currentDay - 8);
+                    Date futureDate = calendar1.getTime();
 
-        BarDataSet dataSet = new BarDataSet(entries, "Bar Chart Example");
-        dataSet.setColor(ContextCompat.getColor(HomeActivity.getInstance(), R.color.light_pink_v2));
-        BarData barData = new BarData(dataSet);
-        barData.setBarWidth(0.5f);
-        chart.setData(barData);
-        chart.invalidate(); // refre
+                    String formattedDate = formatDate(futureDate);
+                    tvDatePicker.setText(formattedDate);
+                    tvDate.setText(formattedDate);
+                }
+            }
+        });
+
+        ivPrevDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentDay > 1) {
+                    currentDay --;
+                    chart.highlightValue(currentDay, 0);
+                    tvTime.setText(StringUtils.convertMillisecondToHMS(map.get(currentDay)));
+                    Calendar calendar1 = Calendar.getInstance();
+                    calendar1.add(Calendar.DAY_OF_MONTH, currentDay - 8);
+                    Date futureDate = calendar1.getTime();
+
+                    String formattedDate = formatDate(futureDate);
+                    tvDatePicker.setText(formattedDate);
+                    ivNextDay.setAlpha(1f);
+                    ivNextDay.setEnabled(true);
+                    tvDate.setText(formattedDate);
+                }
+            }
+        });
     }
 
     private void setupBarChart(BarChart barChart) {
@@ -97,11 +160,59 @@ public class StatsScreenFragment extends BaseFragment {
         }
     }
 
-    @OnClick(R.id.iv_next_day)
-    public void nextDay() {
-        Log.e("anth", "nextDay: chekc log");
+
+
+    public void trackAppUsage(Context context) {
+        UsageStatsManager usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+
+        if (usageStatsManager == null) {
+            return;
+        }
+
+        setupBarChart(chart);
+        List<BarEntry> entries = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, -6); // Lấy dữ liệu trong vòng 7 ngày
+
+        List<UsageStats> usageStatsList = usageStatsManager.queryUsageStats(
+                UsageStatsManager.INTERVAL_DAILY, calendar.getTimeInMillis(), System.currentTimeMillis());
+        int count = 1;
+        if (usageStatsList != null && !usageStatsList.isEmpty()) {
+            for (UsageStats usageStats : usageStatsList) {
+                if (usageStats.getPackageName().equals("com.longtv.zappy")) {
+                    Log.e("anth", "trackAppUsage: " + StringUtils.covertSecondToHMS(usageStats.getTotalTimeInForeground() / 1000));
+                    entries.add(new BarEntry(count, ((float) usageStats.getTotalTimeInForeground() / (3600000f))));
+                    map.put(count, usageStats.getTotalTimeInForeground());
+                    count ++;
+                }
+            }
+
+
+            BarDataSet dataSet = new BarDataSet(entries, "Usage Time Chart");
+            dataSet.setColor(ContextCompat.getColor(HomeActivity.getInstance(), R.color.light_pink_v2));
+            BarData barData = new BarData(dataSet);
+            barData.setBarWidth(0.5f);
+            chart.setData(barData);
+            chart.invalidate();
+            chart.highlightValue(currentDay, 0);
+
+            tvTime.setText(StringUtils.convertMillisecondToHMS(map.get(currentDay)));
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.add(Calendar.DAY_OF_MONTH, 0);
+            Date futureDate = calendar1.getTime();
+
+            String formattedDate = formatDate(futureDate);
+            tvDate.setText(formattedDate);
+            tvDatePicker.setText(formattedDate);
+        }
     }
 
+    public static String formatDate(Date date) {
+        // Định dạng chuỗi theo "EEE, MMM d"
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d");
+        return dateFormat.format(date);
+    }
     @Override
     public BasePresenter onCreatePresenter() {
         return null;

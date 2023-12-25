@@ -53,8 +53,6 @@ public class ContentMediaAdapter extends RecyclerView.Adapter<ContentMediaAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Content content = mContents.get(position);
-        content.setRelated(mContents.stream().filter(it -> it.getId() != content.getId()).collect(Collectors.toList()));
-
         if (!content.isAccess()) {
             ImageUtils.loadImageCornerBlur(context, holder.ivCoverImage, content.getCoverImage(), 18);
             holder.ivPlay.setImageResource(R.drawable.ic_lock_menu);
@@ -65,56 +63,15 @@ public class ContentMediaAdapter extends RecyclerView.Adapter<ContentMediaAdapte
         holder.ivCoverImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (content.isAccess()) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(Constants.TOOL_BAR, "Media");
-                    bundle.putSerializable(Constants.DATA, content);
-                    Fragment topFragment = HomeActivity.getInstance().getSupportFragmentManager().findFragmentById(R.id.container_fragment);
-                    if (topFragment instanceof MediaPlayerFragment) {
-                        Toast.makeText(context, "Đang xem nội dung này " + content.getName(), Toast.LENGTH_SHORT).show();
-                        MediaPlayerFragment.getInstance().setArguments(bundle);
-                        MediaPlayerFragment.getInstance().onPrepareLayout();
-                    } else {
-                        HomeActivity.getInstance().addOrReplaceFragment(new MediaPlayerFragment(), bundle, true, MediaPlayerFragment.class.getSimpleName());
-                    }
-//                    HomeActivity.getInstance().addOrReplaceFragment(new MediaPlayerFragment(), bundle, true, MediaPlayerFragment.class.getSimpleName());
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.TOOL_BAR, "Media");
+                bundle.putSerializable(Constants.DATA, content);
+                Fragment topFragment = HomeActivity.getInstance().getSupportFragmentManager().findFragmentById(R.id.container_fragment);
+                if (topFragment instanceof MediaPlayerFragment) {
+                    MediaPlayerFragment.getInstance().setArguments(bundle);
+                    MediaPlayerFragment.getInstance().onPrepareLayout();
                 } else {
-                    InfoYesNoDialog infoYesNoDialog = new InfoYesNoDialog();
-                    infoYesNoDialog.init(context, "Nội dung yêu cầu trả phí để có thể trải nghiệm. Vui lòng mua nội dung để xem");
-                    infoYesNoDialog.setListener(new InfoYesNoDialog.ItemClickListener() {
-                        @Override
-                        public void btnYesClick() {
-                            if (content.getGolds() > 20) {
-                                Bundle bundle = new Bundle();
-                                bundle.putString(Constants.TOOL_BAR, "Payment");
-                                HomeActivity.getInstance().addOrReplaceFragment(new PackagePaymentFragment(), bundle, true, PackagePaymentFragment.class.getSimpleName());
-                            } else {
-                                InfoYesNoDialog dialog = new InfoYesNoDialog();
-                                dialog.init(context, "Số dư không đủ. Vui lòng mua thêm vàng để thanh toán");
-                                dialog.setListener(new InfoYesNoDialog.ItemClickListener() {
-                                    @Override
-                                    public void btnYesClick() {
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString(Constants.TOOL_BAR, "Payment");
-                                        HomeActivity.getInstance().addOrReplaceFragment(new PackagePaymentFragment(), bundle, true, PackagePaymentFragment.class.getSimpleName());
-                                    }
-
-                                    @Override
-                                    public void btnNoClick() {
-
-                                    }
-                                });
-                                dialog.show(HomeActivity.getInstance().getSupportFragmentManager(), "");
-                            }
-                        }
-
-                        @Override
-                        public void btnNoClick() {
-
-                        }
-                    });
-
-                    infoYesNoDialog.show(HomeActivity.getInstance().getSupportFragmentManager(), "");
+                    HomeActivity.getInstance().addOrReplaceFragment(new MediaPlayerFragment(), bundle, true, MediaPlayerFragment.class.getSimpleName());
                 }
             }
         });

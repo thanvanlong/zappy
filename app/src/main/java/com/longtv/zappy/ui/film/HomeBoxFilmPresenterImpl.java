@@ -10,6 +10,7 @@ import com.longtv.zappy.network.dto.Content;
 import com.longtv.zappy.network.dto.ContentType;
 import com.longtv.zappy.network.dto.DataListDTO;
 import com.longtv.zappy.utils.DialogUtils;
+import com.longtv.zappy.utils.PrefManager;
 
 import java.util.List;
 
@@ -48,5 +49,97 @@ public class HomeBoxFilmPresenterImpl extends BasePresenterImpl<HomeBoxFilmView>
                 mView.onLoadMoviesSuccess(data);
             }
         });
+    }
+
+    @Override
+    public void searchMovies(String filter) {
+        ServiceBuilder.getService().searchMovies(filter).enqueue(new BaseCallback<DataListDTO<Content>>() {
+            @Override
+            public void onError(String errorCode, String errorMessage) {
+                mView.onLoadSearchMoviesError(errorMessage);
+            }
+
+            @Override
+            public void onResponse(DataListDTO<Content> data) {
+                mView.onLoadSearchMoviesSuccess(data);
+            }
+        });
+    }
+
+    @Override
+    public void buyMovie(JsonObject jsonObject) {
+        DialogUtils.showProgressDialog(getViewContext());
+        ServiceBuilder.getService().buyMovie(jsonObject).enqueue(new BaseCallback<Boolean>() {
+            @Override
+            public void onError(String errorCode, String errorMessage) {
+                DialogUtils.dismissProgressDialog(getViewContext());
+            }
+
+            @Override
+            public void onResponse(Boolean data) {
+                DialogUtils.dismissProgressDialog(getViewContext());
+                mView.onBuySuccess(data);
+            }
+        });
+    }
+
+    @Override
+    public void getMoviesDetail(String id) {
+        ServiceBuilder.getService().getMovieDetail(id).enqueue(new BaseCallback<Content>() {
+            @Override
+            public void onError(String errorCode, String errorMessage) {
+
+            }
+
+            @Override
+            public void onResponse(Content data) {
+                mView.doLoadFilmDetail(data);
+            }
+        });
+    }
+
+    @Override
+    public void likeMovie(JsonObject body) {
+        ServiceBuilder.getService().addLibraryName(body).enqueue(new BaseCallback<Object>() {
+            @Override
+            public void onError(String errorCode, String errorMessage) {
+
+            }
+
+            @Override
+            public void onResponse(Object data) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getContentRelated(JsonObject id) {
+        ServiceBuilder.getService().getMoviesByGenre(id).enqueue(new BaseCallback<DataListDTO<Content>>() {
+            @Override
+            public void onError(String errorCode, String errorMessage) {
+
+            }
+
+            @Override
+            public void onResponse(DataListDTO<Content> data) {
+                mView.onLoadMoviesSuccess(data);
+            }
+        });
+    }
+
+    @Override
+    public void getBanner() {
+//        ServiceBuilder.getService().getBannerMovie().enqueue(new BaseCallback<DataListDTO<Content>>() {
+//            @Override
+//            public void onError(String errorCode, String errorMessage) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(DataListDTO<Content> data) {
+//                mView.onLoadBannerSuccess(data);
+//            }
+//        });
     }
 }

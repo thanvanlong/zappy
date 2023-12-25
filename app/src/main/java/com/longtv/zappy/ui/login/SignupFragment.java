@@ -64,6 +64,7 @@ public class SignupFragment extends BaseFragment<LoginPresenter, LoginActivity> 
                     Toast.makeText(getBaseActivity(), "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 }
                 else if (AuthUtils.validatePassword(edtPassword.getText().toString())){
+                    Log.e("anth", "onClick: " + edtConfirmPassword.getText().toString() + " " + edtPassword.getText());
                     if(edtConfirmPassword.getText().toString().equals(edtPassword.getText().toString())){
                         String email = edtEmail.getText().toString();
                         String password = edtPassword.getText().toString();

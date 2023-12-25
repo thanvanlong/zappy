@@ -2,10 +2,12 @@ package com.longtv.zappy.ui.login;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.longtv.zappy.R;
 import com.longtv.zappy.base.BaseActivity;
+import com.longtv.zappy.common.Constants;
 import com.longtv.zappy.network.dto.LoginData;
 import com.longtv.zappy.utils.PrefManager;
 
@@ -21,7 +23,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         if (data != null && data.getQuery().contains("email") && data.getQueryParameter("accessToken") != null) {
             getPresenter().active(data.getQueryParameter("email"), data.getQueryParameter("accessToken"));
         }
-        addFragment(R.id.container, new LoginFragment(), null, true, LoginFragment.class.getSimpleName());
+        LoginFragment fragment = new LoginFragment();
+        addFragment(R.id.container, fragment, null, true, LoginFragment.class.getSimpleName());
     }
 
     @Override

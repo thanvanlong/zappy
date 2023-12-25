@@ -6,8 +6,11 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.longtv.zappy.network.dto.ContentType;
 import com.longtv.zappy.network.dto.LoginData;
 import com.longtv.zappy.network.dto.Profile;
+import com.longtv.zappy.network.dto.UsageTime;
+import com.longtv.zappy.service.NotificationService;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -26,12 +29,176 @@ public class PrefManager {
     private static final String HISTORY_SEARCH = "HISTORY_SEARCH";
     private static final String PROFILE_ID = "PROFILE_ID";
     private static final String PROFILE_TOKEN = "PROFILE_TOKEN";
+    private static final String GOLDS = "GOLDS";
+    private static final String TIME_ON_FILM = "TIME_ON_FILM";
+    private static final String TIME_ON_MUSIC = "TIME_ON_MUSIC";
+    private static final String TIME_ON_BOOK = "TIME_ON_BOOK";
+    private static final String USAGE_TIME = "USAGE_TIME";
+    private static final String PASSWORD = "PASSWORD";
+    private static final String CACHE_HOME = "CACHE_HOME";
+    private static final String CACHE_FILM = "CACHE_FILM";
+    private static final String CACHE_MUSIC = "CACHE_MUSIC";
+    private static final String CACHE_BOOK = "CACHE_BOOK";
+    private static final String CURRENT_NOTIFICATION_ID = "CURRENT_NOTIFICATION_ID";
+    private static final String TAG = "anth";
 
     public synchronized static SharedPreferences getPreference(Context context) {
         if (context != null) {
             return context.getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
         }
         return null;
+    }
+
+    public static void saveUsageTime(Context context, String data) {
+        if (context == null) {
+            return;
+        }
+        SharedPreferences preferences = getPreference(context);
+        if (preferences != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(USAGE_TIME, data);
+            editor.apply();
+        }
+    }
+
+    public static void savePassword(Context context, String password) {
+        if (context == null) {
+            return;
+        }
+        SharedPreferences preferences = getPreference(context);
+        if (preferences != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(PASSWORD, password);
+            editor.apply();
+        }
+    }
+
+    public static String getPassword(Context context) {
+        SharedPreferences preferences = getPreference(context);
+
+        if (preferences != null) {
+            return preferences.getString(PASSWORD, "");
+        }
+
+        return "";
+    }
+
+    public static List<UsageTime> getUsageTime(Context context) {
+        SharedPreferences preferences = getPreference(context);
+
+        if (preferences != null) {
+            String data = preferences.getString(USAGE_TIME, "");
+            if (data == null) {
+                return null;
+            }
+
+            List<UsageTime> list = new ArrayList<>();
+            try {
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<UsageTime>>(){}.getType();
+                list = gson.fromJson(data, type);
+            } catch (Exception e) {
+                list = new ArrayList<>();
+            }
+
+            return list;
+        }
+
+        return new ArrayList<>();
+
+
+    }
+
+    public static void saveTimeOnFilm(Context context, long time) {
+        if (context == null) {
+            return;
+        }
+        Log.e(TAG, "saveTimeOnFilm: " + time );
+        SharedPreferences preferences = getPreference(context);
+        if (preferences != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            long timeOld = preferences.getLong(TIME_ON_FILM, 0);
+            editor.putLong(TIME_ON_FILM, timeOld + time);
+            editor.apply();
+        }
+    }
+
+    public static void saveTimeOnMusic(Context context, long time) {
+        if (context == null) {
+            return;
+        }
+        SharedPreferences preferences = getPreference(context);
+        if (preferences != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            long timeOld = preferences.getLong(TIME_ON_MUSIC, 0);
+            editor.putLong(TIME_ON_MUSIC, timeOld + time);
+            editor.apply();
+        }
+    }
+
+    public static void saveTimeOnBook(Context context, long time) {
+        if (context == null) {
+            return;
+        }
+        SharedPreferences preferences = getPreference(context);
+        if (preferences != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            long timeOld = preferences.getLong(TIME_ON_BOOK, 0);
+            editor.putLong(TIME_ON_BOOK, timeOld + time);
+            editor.apply();
+        }
+    }
+
+    public static long getTimeOnFilm(Context context) {
+        SharedPreferences preferences = getPreference(context);
+
+        if (preferences != null) {
+            return preferences.getLong(TIME_ON_FILM, 0);
+        }
+
+        return 0;
+    }
+
+    public static long getTimeOnMusic(Context context) {
+        SharedPreferences preferences = getPreference(context);
+
+        if (preferences != null) {
+            return preferences.getLong(TIME_ON_MUSIC, 0);
+        }
+
+        return 0;
+    }
+
+    public static long getTimeOnBook(Context context) {
+        SharedPreferences preferences = getPreference(context);
+
+        if (preferences != null) {
+            return preferences.getLong(TIME_ON_BOOK, 0);
+        }
+
+        return 0;
+    }
+
+    public static void saveGold(Context context, int gold) {
+        if (context == null) {
+            return;
+        }
+        SharedPreferences preferences = getPreference(context);
+        if (preferences != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt(GOLDS, gold);
+            editor.apply();
+        }
+    }
+
+    public static int getGold(Context context) {
+        SharedPreferences preferences = getPreference(context);
+
+        if (preferences != null) {
+            return preferences.getInt(GOLDS, 0);
+        }
+
+        return 0;
     }
 
     public static void saveAccessTokenInfo(Context context, String accessToken) {
@@ -45,7 +212,7 @@ public class PrefManager {
             editor.apply();
         }
     }
-    public static void saveRefreshTokenInfo(Context context, String refreshToken) {
+    public static void saveToken(Context context, String refreshToken) {
         if (context == null) {
             return;
         }
@@ -55,6 +222,16 @@ public class PrefManager {
             editor.putString(REFRESH_TOKEN, refreshToken);
             editor.apply();
         }
+    }
+
+    public static String getToken(Context context) {
+        SharedPreferences preferences = getPreference(context);
+
+        if (preferences != null) {
+            return preferences.getString(REFRESH_TOKEN, "");
+        }
+
+        return "";
     }
 
     public static void setProfileId(Context context, int id) {
@@ -137,6 +314,120 @@ public class PrefManager {
             editor.putString(PROFILE_DATA, json);
             editor.apply();
         }
+    }
+
+    public static void saveCacheFilm(Context context, List<ContentType> data) {
+        if (context == null) {
+            return;
+        }
+        SharedPreferences preferences = getPreference(context);
+        if (preferences != null) {
+            Gson gson = new Gson();
+            String json = gson.toJson(data);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(CACHE_FILM, json);
+            editor.apply();
+        }
+    }
+
+    public static List<ContentType> getCacheFilm(Context context) {
+        SharedPreferences preferences = getPreference(context);
+
+        if (preferences != null) {
+            String data = preferences.getString(CACHE_FILM, "");
+            if (data == null) {
+                return null;
+            }
+
+            List<ContentType> list = new ArrayList<>();
+            try {
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<ContentType>>(){}.getType();
+                list = gson.fromJson(data, type);
+            } catch (Exception e) {
+                list = new ArrayList<>();
+            }
+
+            return list;
+        }
+
+        return new ArrayList<>();
+    }
+
+    public static void saveCacheMusic(Context context, List<ContentType> data) {
+        if (context == null) {
+            return;
+        }
+        SharedPreferences preferences = getPreference(context);
+        if (preferences != null) {
+            Gson gson = new Gson();
+            String json = gson.toJson(data);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(CACHE_MUSIC, json);
+            editor.apply();
+        }
+    }
+
+    public static List<ContentType> getCacheMusic(Context context) {
+        SharedPreferences preferences = getPreference(context);
+
+        if (preferences != null) {
+            String data = preferences.getString(CACHE_MUSIC, "");
+            if (data == null) {
+                return null;
+            }
+
+            List<ContentType> list = new ArrayList<>();
+            try {
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<ContentType>>(){}.getType();
+                list = gson.fromJson(data, type);
+            } catch (Exception e) {
+                list = new ArrayList<>();
+            }
+
+            return list;
+        }
+
+        return new ArrayList<>();
+    }
+
+    public static void saveCacheBook(Context context, List<ContentType> data) {
+        if (context == null) {
+            return;
+        }
+        SharedPreferences preferences = getPreference(context);
+        if (preferences != null) {
+            Gson gson = new Gson();
+            String json = gson.toJson(data);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(CACHE_BOOK, json);
+            editor.apply();
+        }
+    }
+
+    public static List<ContentType> getCacheBook(Context context) {
+        SharedPreferences preferences = getPreference(context);
+
+        if (preferences != null) {
+            String data = preferences.getString(CACHE_BOOK, "");
+            if (data == null) {
+                return null;
+            }
+
+            List<ContentType> list = new ArrayList<>();
+            try {
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<ContentType>>(){}.getType();
+                list = gson.fromJson(data, type);
+            } catch (Exception e) {
+                list = new ArrayList<>();
+            }
+
+            return list;
+        }
+
+        return new ArrayList<>();
     }
 
     public static String getAccessToken(Context context) {
@@ -244,4 +535,26 @@ public class PrefManager {
     }
 
 
+    public static void saveCurrentNotificationId(Context context, int id) {
+        if (context == null) {
+            return;
+        }
+        SharedPreferences preferences = getPreference(context);
+        if (preferences != null) {
+            Log.e(TAG, "saveCurrentNotificationId: " + id );
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt(CURRENT_NOTIFICATION_ID, id);
+            editor.apply();
+        }
+    }
+
+    public static int getCurrentNotificationId(Context context) {
+        SharedPreferences preferences = getPreference(context);
+
+        if (preferences != null) {
+            return preferences.getInt(CURRENT_NOTIFICATION_ID, 0);
+        }
+
+        return 0;
+    }
 }

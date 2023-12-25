@@ -51,6 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="10dp"
+                        android:background="@drawable/bg_ripple_oval"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:src="@drawable/ic_arrow_back" />
@@ -163,9 +164,8 @@
                             android:layout_height="wrap_content"
                             android:clickable="true"
                             android:focusable="true"
-                            android:progress="20"
-                            android:paddingStart="0dp"
-                            android:paddingEnd="0dp"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
                             android:indeterminateDrawable="@drawable/continue_progress_bar_music"
                             android:indeterminateOnly="false"
                             android:progressDrawable="@drawable/continue_progress_bar_music"
@@ -178,34 +178,42 @@
                         android:layout_marginTop="@dimen/size_20"
                         android:gravity="center">
                         <ImageView
+                            android:id="@+id/iv_repeat"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.55"
                             android:padding="@dimen/size_10"
+                            android:background="@drawable/bg_ripple_oval"
                             android:src="@drawable/ic_loop"/>
                         <ImageView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:padding="@dimen/size_10"
+                            android:alpha="0.5"
                             android:src="@drawable/player_ic_prev_video_small"/>
                         <ImageView
+                            android:id="@+id/iv_play_pause"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:padding="@dimen/size_10"
+                            android:background="@drawable/bg_ripple_oval"
                             android:src="@drawable/player_ic_play_small"/>
                         <ImageView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:padding="@dimen/size_10"
+                            android:id="@+id/iv_next"
                             android:src="@drawable/player_ic_next_video_small"/>
                         <ImageView
+                            android:id="@+id/iv_shuffle"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.55"
                             android:padding="@dimen/size_10"
+                            android:background="@drawable/bg_ripple_oval"
                             android:src="@drawable/ic_shuffle"/>
                     </LinearLayout>
 
@@ -218,11 +226,14 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:src="@drawable/ic_speaker"/>
+
                         <ImageView
+                            android:id="@+id/iv_share"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:src="@drawable/ic_music_share"/>
+                            android:background="@drawable/bg_ripple_oval"
+                            android:src="@drawable/ic_music_share" />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -294,13 +305,14 @@
                             android:layout_weight="1.2">
 
                             <TextView
+                                android:id="@+id/tv_author"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Hoàng Thùy Linh"
                                 android:textColor="@color/white"
                                 android:fontFamily="@font/inter_semibold"/>
                             <com.longtv.zappy.common.view.ExpandableTextView
-                                android:id="@+id/item_film_description"
+                                android:id="@+id/tv_desc"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"

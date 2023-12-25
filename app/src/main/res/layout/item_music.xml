@@ -23,6 +23,7 @@
         android:layout_weight="5.8">
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
@@ -39,6 +40,7 @@
             android:orientation="horizontal"
             android:weightSum="10">
             <TextView
+                android:id="@+id/tv_author"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Honey bee -ahs"
@@ -47,6 +49,7 @@
                 android:ellipsize="marquee"
                 android:maxLines="1"/>
             <TextView
+                android:id="@+id/tv_duration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="4 min"
@@ -70,6 +73,6 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_like_music" />
+        android:src="@drawable/ic_heart_outline" />
 
 </LinearLayout>

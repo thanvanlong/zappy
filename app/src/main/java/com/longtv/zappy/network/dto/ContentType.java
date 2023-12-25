@@ -2,9 +2,10 @@ package com.longtv.zappy.network.dto;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ContentType {
+public class ContentType implements Serializable {
     @SerializedName("name")
     private String name;
     @SerializedName("type")

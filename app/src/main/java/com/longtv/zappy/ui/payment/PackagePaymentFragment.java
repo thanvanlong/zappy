@@ -25,6 +25,11 @@ public class PackagePaymentFragment extends BaseFragment<PackagePaymentPresenter
     @BindView(R.id.btn_payment)
     Button btnPayment;
 
+    private static PackagePaymentFragment instance;
+    public static PackagePaymentFragment getInstance() {
+        return instance;
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_payment;
@@ -34,8 +39,9 @@ public class PackagePaymentFragment extends BaseFragment<PackagePaymentPresenter
     public void onPrepareLayout() {
         HomeActivity.getInstance().hideBottomBar();
         HomeActivity.getInstance().toggleCoin(View.GONE);
+        HomeActivity.getInstance().toggleTopBar(0);
         getPresenter().getPackagePayment();
-
+        instance = this;
         btnPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +56,11 @@ public class PackagePaymentFragment extends BaseFragment<PackagePaymentPresenter
     @Override
     public PackagePaymentPresenter onCreatePresenter() {
         return new PackagePaymentPresenterImpl(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override

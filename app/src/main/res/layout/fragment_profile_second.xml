@@ -138,6 +138,7 @@
                                 android:layout_weight="0.06"/>
 
                             <LinearLayout
+                                android:id="@+id/ctn_payment"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_marginHorizontal="20dp"
@@ -145,6 +146,7 @@
                                 android:background="@drawable/bg_time_picker"
                                 android:backgroundTint="@color/deep_pink"
                                 android:gravity="center"
+                                android:foreground="?attr/selectableItemBackground"
                                 android:orientation="vertical"
                                 android:padding="20dp">
 
@@ -361,8 +363,10 @@
                                     android:background="@drawable/bg_trapezoid_right"
                                     android:backgroundTint="@color/light_pink">
                                     <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:id="@+id/ctn_stats"
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
+                                        android:layout_height="match_parent"
+                                        android:background="?attr/selectableItemBackgroundBorderless">
                                         <TextView
                                             android:layout_width="0dp"
                                             android:layout_height="0dp"
@@ -613,6 +617,7 @@
                                     android:layout_marginTop="@dimen/size_10"
                                     android:textColor="@color/dark_gray"/>
                                 <TextView
+                                    android:id="@+id/tv_account"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0335202836"

@@ -2,6 +2,7 @@ package com.longtv.zappy.network.dto;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoginData {
@@ -28,11 +29,20 @@ public class LoginData {
     @SerializedName("provider")
     private int provider;
     @SerializedName("profiles")
-    private List<Profile> profiles;
+    private List<Profile> profiles = new ArrayList<>();
     @SerializedName("accessToken")
     private String accessToken;
     @SerializedName("refreshToken")
     private String refreshToken;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public int getId() {
         return id;

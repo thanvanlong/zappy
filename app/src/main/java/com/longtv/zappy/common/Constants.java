@@ -11,4 +11,6 @@ public interface Constants {
     String FROM_HOME = "from_home";
 
     List<String> topFragment = Arrays.asList("HomeBoxFragment", "HomeBoxFilmFragment", "HomeBoxMusicFragment", "HomeBoxStoryFragment");
+    String APP_LINK = "https://facebook.com/";
+    String IS_NOTIFICATION = "is_notification";
 }

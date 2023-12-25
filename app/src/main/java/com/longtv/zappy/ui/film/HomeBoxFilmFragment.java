@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -69,6 +71,12 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
     RecyclerView rcvSearch;
     @BindView(R.id.shimmer_view)
     ShimmerFrameLayout shimmerFrameLayout;
+    @BindView(R.id.container_search_result)
+    LinearLayout containerSearchResult;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
     private int page = 0;
     private int currentPage = 0;
     private List<ContentType> contentTypes = new ArrayList<>();
@@ -94,6 +102,7 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
         ContentBannerAdapter contentNewsAdapter = new ContentBannerAdapter(getViewContext());
         vpBanner.setAdapter(contentNewsAdapter);
         mIndicator.setViewPager(vpBanner);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         vpBanner.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -119,9 +128,9 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
         };
         handler.postDelayed(runnable, 5000);
 
-//        rcvSearch.setLayoutManager(new LinearLayoutManager(getViewContext(), LinearLayoutManager.VERTICAL, false));
-//        rcvSearch.addItemDecoration(new HorizontalItemDecoration(20));
-//        rcvSearch.setAdapter(new SearchAdapter());
+        rcvSearch.setLayoutManager(new LinearLayoutManager(getViewContext(), LinearLayoutManager.VERTICAL, false));
+        rcvSearch.addItemDecoration(new HorizontalItemDecoration(20));
+        rcvSearch.setAdapter(new SearchAdapter());
 
         vpContents.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -141,7 +150,14 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
 
     @OnTextChanged(R.id.edt_search)
     public void onSearch() {
-
+        if (edtSearch.getText().toString().isEmpty() || edtSearch.getText().toString().length() <= 2) {
+            containerSearchResult.setVisibility(View.GONE);
+        } else if (edtSearch.getText().toString().length() > 2) {
+            containerSearchResult.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
+            rcvSearch.setVisibility(View.INVISIBLE);
+            getPresenter().searchMovies(edtSearch.getText().toString());
+        }
     }
 
     @OnClick(R.id.iv_voice_search)
@@ -183,7 +199,8 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
     }
     @Override
     public void onRefresh() {
-
+        loadData();
+        Log.e("anth", "onRefresh: " + swipeRefreshLayout.isRefreshing());
     }
 
     @Override
@@ -191,6 +208,7 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
         JsonObject filter = new JsonObject();
         filter.addProperty("genres.id", contentTypes.getResults().get(0).getId() + "");
         this.contentTypes.addAll(contentTypes.getResults());
+        swipeRefreshLayout.setRefreshing(false);
         for (ContentType contentType:
              this.contentTypes) {
             data.put(contentType.getId() + "", contentType.getContents());
@@ -236,6 +254,28 @@ public class HomeBoxFilmFragment extends BaseFragment<HomeBoxFilmPresenter, Home
 
     @Override
     public void onLoadMoviesError(String message) {
+
+    }
+
+    @Override
+    public void onLoadSearchMoviesSuccess(DataListDTO<Content> data) {
+        progressBar.setVisibility(View.GONE);
+        rcvSearch.setVisibility(View.VISIBLE);
+        ((SearchAdapter) rcvSearch.getAdapter()).setmContents(data.getResults());
+    }
+
+    @Override
+    public void onLoadSearchMoviesError(String message) {
+
+    }
+
+    @Override
+    public void onBuySuccess(Boolean data) {
+
+    }
+
+    @Override
+    public void doLoadFilmDetail(Content content) {
 
     }
 }

@@ -38,6 +38,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
             <EditText
+                android:id="@+id/edt_search"
                 android:layout_width="0dp"
                 android:layout_height="24dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -63,11 +64,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/size_10">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_content"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="130dp"/>
+            android:orientation="vertical">
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/size_20"
+                android:visibility="gone"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="130dp"/>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

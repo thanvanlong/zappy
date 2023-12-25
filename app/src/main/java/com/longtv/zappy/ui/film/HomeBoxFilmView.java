@@ -12,4 +12,9 @@ public interface HomeBoxFilmView extends BaseView<HomeBoxFilmPresenter> {
     void onLoadGenreError(String message);
     void onLoadMoviesSuccess(DataListDTO<Content> data);
     void onLoadMoviesError(String message);
+
+    void onLoadSearchMoviesSuccess(DataListDTO<Content> data);
+    void onLoadSearchMoviesError(String message);
+    void onBuySuccess(Boolean data);
+    void doLoadFilmDetail(Content content);
 }

@@ -46,8 +46,14 @@
             android:textColor="@color/gray"
             android:textSize="@dimen/size_10"
             android:text="20 lượt xem"/>
-
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/item_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_ripple"
+        android:orientation="vertical"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,16 +19,15 @@
 
     <me.relex.circleindicator.CircleIndicator3
         android:id="@+id/indicator"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:ci_gravity="center"
-        app:ci_height="7dp"
-        app:ci_width="7dp"
+        app:layout_constraintBottom_toTopOf="@+id/iv_next"
         app:ci_drawable="@drawable/ic_circle_deep_pink"
         app:ci_drawable_unselected="@drawable/ic_circle_white"
-        app:layout_constraintHeight_percent="0.2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/size_20"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -45,14 +44,14 @@
     <ImageView
         android:id="@+id/iv_next"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
         android:src="@drawable/ic_right_arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="visible"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.1" />
+        app:layout_constraintWidth_percent="0.08" />
 
     <Button
         android:id="@+id/tv_next"

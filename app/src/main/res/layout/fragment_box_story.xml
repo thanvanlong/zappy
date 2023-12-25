@@ -9,7 +9,7 @@
         android:id="@+id/shimmer_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         android:padding="10dp">
         <include layout="@layout/shimmer_layout_home"/>
     </com.facebook.shimmer.ShimmerFrameLayout>

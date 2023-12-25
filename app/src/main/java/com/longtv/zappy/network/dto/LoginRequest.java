@@ -9,6 +9,14 @@ public class LoginRequest implements Serializable {
     private String email;
     @SerializedName("password")
     private String password;
+    @SerializedName("token")
+    private String token;
+
+    public LoginRequest(String email, String password, String token) {
+        this.email = email;
+        this.password = password;
+        this.token = token;
+    }
 
     public LoginRequest(String email, String password) {
         this.email = email;

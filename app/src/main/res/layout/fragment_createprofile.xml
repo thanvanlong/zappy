@@ -144,7 +144,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.8"
+            android:layout_weight="0.5"
             android:orientation="horizontal">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -152,15 +152,14 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:src="@drawable/duck"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHeight_percent="0.9"
+                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent="0.9" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
@@ -172,9 +171,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.4"
+                android:layout_weight="0.6"
                 android:orientation="vertical">
                 <EditText
+                    android:id="@+id/edt_name_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Your Name"
@@ -201,9 +201,9 @@
                         <com.yarolegovich.discretescrollview.DiscreteScrollView
                             android:id="@+id/vp2_age_profile"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:paddingStart="115dp"
-                            android:paddingEnd="115dp"/>
+                            android:layout_height="100dp"
+                            android:paddingStart="50dp"
+                            android:paddingEnd="50dp"/>
                     </LinearLayout>
                     <ImageView
                         android:id="@+id/iv_next_slide_profile"

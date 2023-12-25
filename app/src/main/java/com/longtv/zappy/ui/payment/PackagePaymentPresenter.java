@@ -6,4 +6,5 @@ import com.longtv.zappy.base.BasePresenter;
 public interface PackagePaymentPresenter extends BasePresenter {
     void getPackagePayment();
     void doPayment(JsonObject jsonObject);
+    void verifyPayment(JsonObject jsonObject);
 }

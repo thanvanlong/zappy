@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Profile implements Serializable {
     @SerializedName("id")
@@ -13,9 +14,26 @@ public class Profile implements Serializable {
     @SerializedName("avatar")
     private String avatar;
     @SerializedName("birthday")
-    private LocalDateTime dob;
-    @SerializedName("time_on")
+    private Date dob;
+    @SerializedName("onScreen")
     private long timeOnScreen;
+    @SerializedName("order")
+    private int order;
+
+    public Profile(String nickname, Date dob, long timeOnScreen, int order) {
+        this.nickname = nickname;
+        this.dob = dob;
+        this.timeOnScreen = timeOnScreen;
+        this.order = order;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
 
     public long getTimeOnScreen() {
         return timeOnScreen;
@@ -49,11 +67,11 @@ public class Profile implements Serializable {
         this.avatar = avatar;
     }
 
-    public LocalDateTime getDob() {
+    public Date getDob() {
         return dob;
     }
 
-    public void setDob(LocalDateTime dob) {
+    public void setDob(Date dob) {
         this.dob = dob;
     }
 }

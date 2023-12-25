@@ -1,6 +1,7 @@
 package com.longtv.zappy.network;
 
 import com.google.gson.JsonObject;
+import com.longtv.zappy.network.dto.Chapter;
 import com.longtv.zappy.network.dto.Content;
 import com.longtv.zappy.network.dto.ContentType;
 import com.longtv.zappy.network.dto.DataListDTO;
@@ -38,8 +39,15 @@ public interface ZappyService {
     @GET("genre/list/gr?type=2")
     Call<ResponseDTO<DataListDTO<ContentType>>> getGenreMovie();
 
+    @GET("genre/list/gr?type=0")
+    Call<ResponseDTO<DataListDTO<ContentType>>> getGenreStory();
+
+
     @GET("movie")
     Call<ResponseDTO<DataListDTO<Content>>> getMovies(@Query("filter") JsonObject object);
+
+    @GET("movie")
+    Call<ResponseDTO<DataListDTO<Content>>> searchMovies(@Query("search") String object);
 
     @POST("profile/login")
     Call<ResponseDTO<LoginData>> loginProfile(@Body JsonObject id);
@@ -49,4 +57,38 @@ public interface ZappyService {
 
     @POST("payment")
     Call<ResponseDTO<Object>> doPayment(@Body JsonObject jsonObject);
+
+    @POST("payment/return")
+    Call<ResponseDTO<Integer>> verifyPayment(@Body JsonObject jsonObject);
+
+    @GET("music")
+    Call<ResponseDTO<DataListDTO<Content>>> getMusics(@Query("search") String object);
+
+    @GET("user/me")
+    Call<ResponseDTO<LoginData>> getMe();
+    @POST("movie/buy")
+    Call<ResponseDTO<Boolean>> buyMovie(@Body JsonObject jsonObject);
+
+    @GET("movie/{id}")
+    Call<ResponseDTO<Content>> getMovieDetail(@Path("id") String id);
+
+    @POST("library/add-library-name")
+    Call<ResponseDTO<Object>> addLibraryName(@Body JsonObject jsonObject);
+
+    @GET("movie")
+    Call<ResponseDTO<DataListDTO<Content>>> getMoviesByGenre(@Query("filter") JsonObject object);
+
+    @GET("music")
+    Call<ResponseDTO<DataListDTO<Content>>> getMusicByGenre(@Query("filter") JsonObject object);
+
+    @GET("music/{id}")
+    Call<ResponseDTO<Content>> getMusicDetail(@Path("id") int id);
+
+    @POST("profile")
+    Call<ResponseDTO<Profile>> saveProfile(@Body Profile profile);
+
+    @GET("movie")
+    Call<ResponseDTO<DataListDTO<Content>>> getBannerMovie(@Query("sor") JsonObject object);
+    @GET("chapter/{id}")
+    Call<ResponseDTO<DataListDTO<Chapter>>> getChapter(@Path("id") String id);
 }

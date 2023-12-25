@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.longtv.zappy.R;
 import com.longtv.zappy.base.BaseFragment;
+import com.longtv.zappy.common.Constants;
 import com.longtv.zappy.network.dto.LoginData;
 import com.longtv.zappy.network.dto.LoginRequest;
 import com.longtv.zappy.ui.HomeActivity;
@@ -35,6 +36,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter, LoginActivity> i
     protected TextView tvLink;
     @BindView(R.id.iv_show_pass)
     protected ImageView ivShowPass;
+    private String token;
 
     @Override
     public int getLayoutId() {
@@ -43,6 +45,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter, LoginActivity> i
 
     @Override
     public void onPrepareLayout() {
+        token = PrefManager.getToken(getViewContext());
         setListener();
     }
 
@@ -58,7 +61,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter, LoginActivity> i
                 if (edtEmail.getText().toString().isEmpty() || edtPassword.getText().toString().isEmpty()) {
                     Toast.makeText(getViewContext(), "Vui lòng nhập đẩy đủ thông tin để đăng nhập", Toast.LENGTH_SHORT).show();
                 } else {
-                    LoginRequest request = new LoginRequest(edtEmail.getText().toString(), edtPassword.getText().toString());
+                    LoginRequest request = new LoginRequest(edtEmail.getText().toString(), edtPassword.getText().toString(), token);
                     getViewContext().hideSoftKeyboard();
                     getPresenter().doLogin(request);
                 }
@@ -83,6 +86,8 @@ public class LoginFragment extends BaseFragment<LoginPresenter, LoginActivity> i
                 }
             }
         });
+
+
     }
 
     @Override
@@ -91,8 +96,12 @@ public class LoginFragment extends BaseFragment<LoginPresenter, LoginActivity> i
         PrefManager.saveAccessTokenInfo(getViewContext(), data.getAccessToken());
         PrefManager.saveUserData(getViewContext(), new Gson().toJson(data));
         PrefManager.saveProfileData(getViewContext(), data.getProfiles());
-        startActivity(new Intent(getViewContext(), HomeActivity.class));
-        getViewContext().finish();
+        if (PrefManager.getPassword(getViewContext()).isEmpty()) {
+            getViewContext().addFragment(R.id.container, new ScreenPasswordFragment(), true, ScreenPasswordFragment.class.getSimpleName());
+        } else {
+            startActivity(new Intent(getViewContext(), HomeActivity.class));
+            getViewContext().finish();
+        }
     }
 
     @Override

@@ -13,12 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.longtv.zappy.R;
 import com.longtv.zappy.common.adapter.ContentAdapter;
 import com.longtv.zappy.common.view.HorizontalItemDecoration;
+import com.longtv.zappy.network.dto.ContentType;
 import com.longtv.zappy.ui.HomeActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeBoxStoryAdapter extends RecyclerView.Adapter<HomeBoxStoryAdapter.ViewHolder> {
+    private List<ContentType> contentTypes = new ArrayList<>();
+
+    public HomeBoxStoryAdapter(List<ContentType> contentTypes) {
+        this.contentTypes = contentTypes;
+    }
+
     @NonNull
     @Override
     public HomeBoxStoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -28,16 +38,17 @@ public class HomeBoxStoryAdapter extends RecyclerView.Adapter<HomeBoxStoryAdapte
 
     @Override
     public void onBindViewHolder(@NonNull HomeBoxStoryAdapter.ViewHolder holder, int position) {
-        holder.tvTitle.setText("Stories");
+        ContentType contentType = contentTypes.get(position);
+        holder.tvTitle.setText(contentType.getName());
         holder.rcvContent.setLayoutManager(new LinearLayoutManager(HomeActivity.getInstance(),  LinearLayoutManager.HORIZONTAL, false));
-        ContentAdapter contentAdapter = new ContentAdapter();
+        ContentAdapter contentAdapter = new ContentAdapter(contentType.getContents());
         holder.rcvContent.setAdapter(contentAdapter);
         holder.rcvContent.addItemDecoration(new HorizontalItemDecoration(30));
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return contentTypes.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

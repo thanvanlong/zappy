@@ -1,15 +1,16 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 android {
     namespace 'com.longtv.zappy'
-    compileSdk 34
+    compileSdk 33
     flavorDimensions "default"
     android.buildFeatures.buildConfig true
     defaultConfig {
         applicationId "com.longtv.zappy"
         minSdk 24
-        targetSdk 34
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -86,4 +87,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.yarolegovich:discrete-scrollview:1.5.1'
     implementation "com.github.skydoves:powerspinner:1.2.7"
+    implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
 }

@@ -86,6 +86,7 @@ public class HomeBoxFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        HomeActivity.getInstance().toggleSetting(1);
 //        HomeActivity.getInstance().showBottomBar();
 //        HomeActivity.getInstance().toggleTopBar(0);
 //        HomeActivity.getInstance().handleBtnBack(false);

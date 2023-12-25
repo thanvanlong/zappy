@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -42,23 +43,25 @@
             android:id="@+id/container_ed"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.39"
+            android:orientation="vertical"
             android:paddingTop="@dimen/size_10"
+            app:layout_constraintHeight_percent="0.39"
             app:layout_constraintTop_toBottomOf="@id/container_welcome"
-            android:orientation="vertical">
+            tools:layout_editor_absoluteX="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/size_10"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/size_10">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/normal_purple"
                     android:fontFamily="@font/inter_semibold"
-                    android:textSize="16sp"
-                    android:text="Email ID"/>
+                    android:text="Email ID"
+                    android:textColor="@color/normal_purple"
+                    android:textSize="15sp" />
 
                 <EditText
                     android:id="@+id/edt_email_login"
@@ -67,49 +70,51 @@
                     android:background="@drawable/bg_edit_text"
                     android:hint="Enter your email address"
                     android:padding="5dp"
-                    android:textColorHint="@color/normal_gray"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textColorHint="@color/normal_gray"
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/size_10"
                 android:layout_marginTop="@dimen/size_10"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/size_10">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/normal_purple"
                     android:fontFamily="@font/inter_semibold"
-                    android:textSize="16sp"
-                    android:text="Password"/>
+                    android:text="Password"
+                    android:textColor="@color/normal_purple"
+                    android:textSize="15sp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <EditText
                         android:id="@+id/edt_password_login"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
+                        android:layout_alignParentStart="true"
                         android:background="@drawable/bg_edit_text"
                         android:hint="Enter your email address"
-                        android:padding="5dp"
-                        android:textColorHint="@color/normal_gray"
-                        android:textColor="@color/black"
                         android:inputType="textPassword"
-                        android:layout_alignParentStart="true"
+                        android:padding="5dp"
                         android:paddingEnd="50dp"
-                        android:textSize="16sp" />
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/normal_gray"
+                        android:textSize="15sp" />
 
                     <ImageView
                         android:id="@+id/iv_show_pass"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_eye_close"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentEnd="true"/>
+                        android:src="@drawable/ic_eye_close" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -117,13 +122,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_10">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Forgot password"
                     android:textAlignment="center"
-                    android:textSize="13sp"
-                    android:textColor="@color/normal_gray"/>
+                    android:textColor="@color/normal_gray"
+                    android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -166,12 +172,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/size_10"
                     android:src="@drawable/ic_twitter"/>
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_marginLeft="@dimen/size_10"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_logo_fb"/>
+
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -194,7 +195,7 @@
                 android:textAlignment="center"
                 android:layout_marginTop="@dimen/size_10"
                 android:fontFamily="@font/inter_semibold"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/bg_btn_login"/>
 
             <TextView
@@ -234,8 +235,8 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.6"
-        app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_percent="0.5"
         app:layout_constraintTop_toBottomOf="@id/container_login"
         android:src="@drawable/lion"/>
 

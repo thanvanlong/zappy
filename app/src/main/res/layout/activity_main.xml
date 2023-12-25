@@ -94,7 +94,7 @@
                         android:textColor="@color/black"
                         android:layout_alignParentEnd="true"
                         android:fontFamily="@font/inter_medium"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         />
                 </RelativeLayout>
 

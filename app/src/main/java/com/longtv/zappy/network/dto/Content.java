@@ -25,7 +25,28 @@ public class Content implements Serializable {
     private List<ContentType> types;
     @SerializedName("url")
     private String urlStream;
-    private List<Content> related;
+    @SerializedName("views")
+    private int views;
+    @SerializedName("isLike")
+    private boolean isLike;
+
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public void setLike(boolean like) {
+        isLike = like;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
+    }
+
+    private List<Content> related = new ArrayList<>();
 
     public List<Content> getRelated() {
         return related;
